@@ -38,7 +38,7 @@ export const getSupervisorDrivers = async (req, res) => {
 
   try {
 
-    const { supervisor_id } = req.query;
+    const { supervisor_id } = req.body;
 
     if (!supervisor_id) {
       return res.status(400).json({

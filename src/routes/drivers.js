@@ -27,6 +27,6 @@ router.post('/:id/approve', approveDriver);
 
 router.post('/:id/reject', rejectDriver);
 
-router.get('/supervisor/drivers', getSupervisorDrivers);
+router.post('/supervisor/drivers', getSupervisorDrivers);
 
 export default router;
