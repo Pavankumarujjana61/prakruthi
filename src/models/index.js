@@ -1,30 +1,89 @@
 import Vehicle from './Vehicle.js';
 import Driver from './Driver.js';
 import Supervisor from './Supervisor.js';
-import SupervisorVehicleAssignment from './SupervisorVehicleAssignment.js';
-import DriverAttendance from './DriverAttendance.js';
 
-// Vehicle association
+import SupervisorVehicleAssignment
+from './SupervisorVehicleAssignment.js';
+
+import DriverAttendance
+from './DriverAttendance.js';
+
+import FuelLog from './FuelLog.js';
+
+import MaintenanceLog
+from './MaintenanceLog.js';
+
+import NationalPermitLog
+from './NationalPermitLog.js';
+
+import VehiclePermitLog
+from './VehiclePermitLog.js';
+
+import VehicleBatteryLog
+from './VehicleBatteryLog.js';
+
+import VehicleTyreLog
+from './VehicleTyreLog.js';
+
+import VehicleInsuranceLog
+from './VehicleInsuranceLog.js';
+
+import VehicleTaxLog
+from './VehicleTaxLog.js';
+
+import VehicleGreaseLog
+from './VehicleGreaseLog.js';
+
+import VehicleEngineOilLog
+from './VehicleEngineOilLog.js';
+
+import VehicleFitnessLog
+from './VehicleFitnessLog.js';
+
+import VehiclePollutionLog
+from './VehiclePollutionLog.js';
+
+import VehicleAlignmentLog
+from './VehicleAlignmentLog.js';
+
+
+// ======================================
+// Supervisor Vehicle Assignment
+// ======================================
+
 SupervisorVehicleAssignment.belongsTo(Vehicle, {
   foreignKey: 'vehicle_id',
   as: 'vehicle',
 });
 
-Vehicle.hasMany(SupervisorVehicleAssignment, {
-  foreignKey: 'vehicle_id',
-  as: 'assignments',
-});
+Vehicle.hasMany(
+  SupervisorVehicleAssignment,
+  {
+    foreignKey: 'vehicle_id',
+    as: 'assignments',
+  }
+);
 
-// Supervisor association
-SupervisorVehicleAssignment.belongsTo(Supervisor, {
-  foreignKey: 'supervisor_id',
-  as: 'supervisor',
-});
+SupervisorVehicleAssignment.belongsTo(
+  Supervisor,
+  {
+    foreignKey: 'supervisor_id',
+    as: 'supervisor',
+  }
+);
 
-Supervisor.hasMany(SupervisorVehicleAssignment, {
-  foreignKey: 'supervisor_id',
-  as: 'vehicleAssignments',
-});
+Supervisor.hasMany(
+  SupervisorVehicleAssignment,
+  {
+    foreignKey: 'supervisor_id',
+    as: 'vehicleAssignments',
+  }
+);
+
+
+// ======================================
+// Driver Attendance
+// ======================================
 
 DriverAttendance.belongsTo(Driver, {
   foreignKey: 'driver_id',
@@ -36,10 +95,118 @@ Driver.hasMany(DriverAttendance, {
   as: 'attendance'
 });
 
+
+// ======================================
+// Vehicle Log Associations
+// ======================================
+
+const vehicleLogModels = [
+
+  FuelLog,
+
+  MaintenanceLog,
+
+  NationalPermitLog,
+
+  VehiclePermitLog,
+
+  VehicleBatteryLog,
+
+  VehicleTyreLog,
+
+  VehicleInsuranceLog,
+
+  VehicleTaxLog,
+
+  VehicleGreaseLog,
+
+  VehicleEngineOilLog,
+
+  VehicleFitnessLog,
+
+  VehiclePollutionLog,
+
+  VehicleAlignmentLog
+
+];
+
+vehicleLogModels.forEach((Model) => {
+
+  Model.belongsTo(Vehicle, {
+    foreignKey: 'vehicle_id',
+    as: 'vehicle'
+  });
+
+  Vehicle.hasMany(Model, {
+    foreignKey: 'vehicle_id'
+  });
+
+});
+
+
+// ======================================
+// Driver-linked logs
+// ======================================
+
+FuelLog.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+  as: 'driver'
+});
+
+Driver.hasMany(FuelLog, {
+  foreignKey: 'driver_id'
+});
+
+VehicleBatteryLog.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+  as: 'driver'
+});
+
+Driver.hasMany(VehicleBatteryLog, {
+  foreignKey: 'driver_id'
+});
+
+
+// ======================================
+// Exports
+// ======================================
+
 export {
+
   Vehicle,
+
   Driver,
+
   Supervisor,
+
   SupervisorVehicleAssignment,
-  DriverAttendance
+
+  DriverAttendance,
+
+  FuelLog,
+
+  MaintenanceLog,
+
+  NationalPermitLog,
+
+  VehiclePermitLog,
+
+  VehicleBatteryLog,
+
+  VehicleTyreLog,
+
+  VehicleInsuranceLog,
+
+  VehicleTaxLog,
+
+  VehicleGreaseLog,
+
+  VehicleEngineOilLog,
+
+  VehicleFitnessLog,
+
+  VehiclePollutionLog,
+
+  VehicleAlignmentLog
+
 };
