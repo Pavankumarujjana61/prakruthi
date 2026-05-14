@@ -7,8 +7,8 @@ import {
 
 const router = express.Router();
 
-router.post('/vehicles/:vehicle_id/logs/:type', createVehicleLog);
+router.post('/:vehicle_id/logs/:type', createVehicleLog);
 
-router.get('/vehicles/:vehicle_id/logs/:type', getVehicleLogs);
+router.get('/:vehicle_id/logs/:type', getVehicleLogs);
 
 export default router;
