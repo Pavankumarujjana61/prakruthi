@@ -63,21 +63,7 @@ export const getVehicle = async (req, res) => {
   try {
 
     const vehicle =
-      await Vehicle.findByPk(req.params.id, {
-
-        include: [
-          {
-            model: Driver,
-            as: 'driver',
-            attributes: [
-              'driver_id',
-              'driver_name',
-              'phone_number',
-              'license_number'
-            ]
-          }
-        ]
-      });
+      await Vehicle.findByPk(req.params.id);
 
     if (!vehicle) {
 
