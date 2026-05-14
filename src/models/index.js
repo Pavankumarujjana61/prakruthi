@@ -46,7 +46,8 @@ from './VehiclePollutionLog.js';
 import VehicleAlignmentLog
 from './VehicleAlignmentLog.js';
 
-
+import VehicleRadiatorWaterLog
+from './VehicleRadiatorWaterLog.js';
 // ======================================
 // Supervisor Vehicle Assignment
 // ======================================
@@ -125,7 +126,9 @@ const vehicleLogModels = [
 
   VehiclePollutionLog,
 
-  VehicleAlignmentLog
+  VehicleAlignmentLog,
+
+  VehicleRadiatorWaterLog
 
 ];
 
@@ -206,6 +209,8 @@ export {
 
   VehiclePollutionLog,
 
-  VehicleAlignmentLog
+  VehicleAlignmentLog,
+
+  VehicleRadiatorWaterLog
 
 };
