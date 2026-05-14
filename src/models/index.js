@@ -95,6 +95,15 @@ Driver.hasMany(DriverAttendance, {
   as: 'attendance'
 });
 
+Vehicle.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+  as: 'driver'
+});
+
+Driver.hasMany(Vehicle, {
+  foreignKey: 'driver_id',
+  as: 'vehicles'
+});
 
 // ======================================
 // Vehicle Log Associations
