@@ -62,6 +62,67 @@ export const createVehicleLog = async (req, res) => {
   }
 };
 
+export const updateVehicleLog = async (req, res) => {
+
+  try {
+
+    const { type, id } = req.params;
+
+    const {
+      supervisor_id,
+      ...updateData
+    } = req.body;
+
+    const Model = logModels[type];
+
+    if (!Model) {
+
+      return res.status(400).json({
+        success: false,
+        error: 'Invalid log type'
+      });
+    }
+
+    const primaryKey =
+      Object.keys(Model.primaryKeys)[0];
+
+    const log =
+      await Model.findOne({
+
+        where: {
+          [primaryKey]: id
+        }
+      });
+
+    if (!log) {
+
+      return res.status(404).json({
+        success: false,
+        error: 'Log not found'
+      });
+    }
+
+    // Add updated_by supervisor
+    updateData.updated_by = supervisor_id;
+
+    await log.update(updateData);
+
+    return res.status(200).json({
+      success: true,
+      message:
+        'Vehicle log updated successfully',
+      data: log
+    });
+
+  } catch (error) {
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
+
 export const getVehicleLogs = async (req, res) => {
   try {
     const { type } = req.params;
