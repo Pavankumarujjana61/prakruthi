@@ -1,6 +1,10 @@
 import Supervisor from '../models/Supervisor.js';
 import bcrypt from 'bcryptjs';
 import generateToken from '../utils/generateToken.js';
+import {
+  Driver,
+  SupervisorVehicleAssignment
+} from '../models/index.js';
 
 export const supervisorLogin = async (req, res) => {
 
@@ -243,6 +247,59 @@ export const deleteSupervisor = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: error.message,
+    });
+  }
+};
+
+
+export const getSupervisorDashboard = async (req, res) => {
+
+  try {
+
+    const supervisor_id = req.params.id;
+
+    const supervisor =
+  await Supervisor.findByPk(supervisor_id);
+
+  if (!supervisor) {
+    return res.status(404).json({
+      success: false,
+      error: 'Supervisor not found'
+    });
+  }
+    // Vehicle count
+    const vehicles_count =
+      await SupervisorVehicleAssignment.count({
+        where: {
+          supervisor_id,
+          assignment_status: 'active'
+        }
+      });
+
+    // Driver count
+    const drivers_count =
+      await Driver.count({
+        where: {
+          supervisor_id
+        }
+      });
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        supervisor_id,
+        vehicles_count,
+        drivers_count
+      }
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 };

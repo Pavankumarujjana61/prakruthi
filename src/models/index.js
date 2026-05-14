@@ -1,4 +1,5 @@
 import Vehicle from './Vehicle.js';
+import Driver from './Driver.js';
 import Supervisor from './Supervisor.js';
 import SupervisorVehicleAssignment from './SupervisorVehicleAssignment.js';
 
@@ -26,6 +27,7 @@ Supervisor.hasMany(SupervisorVehicleAssignment, {
 
 export {
   Vehicle,
+  Driver,
   Supervisor,
   SupervisorVehicleAssignment
 };

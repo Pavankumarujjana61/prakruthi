@@ -6,12 +6,15 @@ import {
   getSupervisor,
   updateSupervisor,
   deleteSupervisor,
-  supervisorLogin
+  supervisorLogin,
+  getSupervisorDashboard
 } from '../controllers/supervisors.js';
 
 const router = express.Router();
 
 router.get('/', getSupervisors);
+
+router.get('/:id/dashboard', getSupervisorDashboard);
 
 router.get('/:id', getSupervisor);
 
@@ -22,4 +25,5 @@ router.put('/:id', updateSupervisor);
 router.delete('/:id', deleteSupervisor);
 
 router.post('/login', supervisorLogin);
+
 export default router;
