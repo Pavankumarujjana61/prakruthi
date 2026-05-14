@@ -4,15 +4,18 @@ export const createDriver = async (req, res) => {
 
   try {
 
-    // Assuming supervisor data comes from auth middleware
-    const supervisor_id = req.user.supervisor_id;
-
-    const payload = {
-      ...req.body,
+    const {
       supervisor_id
-    };
+    } = req.body;
 
-    const driver = await Driver.create(payload);
+    if (!supervisor_id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Supervisor ID is required'
+      });
+    }
+
+    const driver = await Driver.create(req.body);
 
     return res.status(201).json({
       success: true,
@@ -27,6 +30,42 @@ export const createDriver = async (req, res) => {
     return res.status(500).json({
       success: false,
       error: error.message,
+    });
+  }
+};
+
+export const getSupervisorDrivers = async (req, res) => {
+
+  try {
+
+    const { supervisor_id } = req.query;
+
+    if (!supervisor_id) {
+      return res.status(400).json({
+        success: false,
+        message: 'Supervisor ID is required'
+      });
+    }
+
+    const drivers = await Driver.findAll({
+      where: {
+        supervisor_id
+      },
+      order: [['driver_id', 'DESC']]
+    });
+
+    return res.status(200).json({
+      success: true,
+      data: drivers
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
     });
   }
 };
