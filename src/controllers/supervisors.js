@@ -287,7 +287,6 @@ export const getSupervisorDashboard = async (req, res) => {
     return res.status(200).json({
       success: true,
       data: {
-        supervisor_id,
         vehicles_count,
         drivers_count
       }

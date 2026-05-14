@@ -20,6 +20,7 @@ import maintenanceRoutes from './routes/maintenance.js';
 import alertRoutes from './routes/alerts.js';
 import supervisorRoutes from './routes/supervisors.js';
 import supervisorAssignmentRoutes from './routes/supervisorAssignments.js';
+import driverAttendanceRoutes from './routes/DriverAttendance.js';
 
 // Load environment variables
 dotenv.config();
@@ -81,6 +82,7 @@ app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/supervisors', supervisorRoutes);
 app.use('/api/supervisor-assignments',supervisorAssignmentRoutes);
+app.use('/api/driver-attendance', driverAttendanceRoutes);
 
 // Swagger documentation
 if (process.env.NODE_ENV === 'development') {

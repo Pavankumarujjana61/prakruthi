@@ -2,6 +2,7 @@ import Vehicle from './Vehicle.js';
 import Driver from './Driver.js';
 import Supervisor from './Supervisor.js';
 import SupervisorVehicleAssignment from './SupervisorVehicleAssignment.js';
+import DriverAttendance from './DriverAttendance.js';
 
 // Vehicle association
 SupervisorVehicleAssignment.belongsTo(Vehicle, {
@@ -25,9 +26,20 @@ Supervisor.hasMany(SupervisorVehicleAssignment, {
   as: 'vehicleAssignments',
 });
 
+DriverAttendance.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+  as: 'driver'
+});
+
+Driver.hasMany(DriverAttendance, {
+  foreignKey: 'driver_id',
+  as: 'attendance'
+});
+
 export {
   Vehicle,
   Driver,
   Supervisor,
-  SupervisorVehicleAssignment
+  SupervisorVehicleAssignment,
+  DriverAttendance
 };

@@ -8,7 +8,8 @@ import {
   deleteDriver,
   approveDriver,
   rejectDriver,
-  getSupervisorDrivers
+  getSupervisorDrivers,
+  getDriverCurrentStatus
 } from '../controllers/drivers.js';
 
 const router = express.Router();
@@ -28,5 +29,7 @@ router.post('/:id/approve', approveDriver);
 router.post('/:id/reject', rejectDriver);
 
 router.post('/supervisor/drivers', getSupervisorDrivers);
+
+router.get('/:driver_id/status', getDriverCurrentStatus);
 
 export default router;

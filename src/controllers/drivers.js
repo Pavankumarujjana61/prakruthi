@@ -244,3 +244,51 @@ export const rejectDriver = async (req, res) => {
     });
   }
 };
+
+
+export const getDriverCurrentStatus = async (req, res) => {
+
+  try {
+
+    const driver_id = req.params.driver_id;
+
+    const driver = await Driver.findOne({
+
+      where: {
+        driver_id
+      },
+
+      attributes: [
+        'driver_id',
+        'driver_name',
+        'phone_number',
+        'current_status',
+        'license_number',
+        'joining_date',
+        'photo'
+      ]
+    });
+
+    if (!driver) {
+
+      return res.status(404).json({
+        success: false,
+        error: 'Driver not found'
+      });
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: driver
+    });
+
+  } catch (error) {
+
+    console.error(error);
+
+    return res.status(500).json({
+      success: false,
+      error: error.message
+    });
+  }
+};
