@@ -4,6 +4,7 @@ import Vehicle from '../models/Vehicle.js';
 import logger from '../utils/logger.js';
 import { buildSearchQuery, getPagination } from '../services/queryService.js';
 import { mockVehicles } from '../utils/mockData.js';
+import Driver from '../models/Driver.js';
 
 // @desc    Get all vehicles
 // @route   GET /api/vehicles
@@ -56,34 +57,48 @@ export const getVehicles = async (req, res) => {
   }
 };
 
-// @desc    Get single vehicle
-// @route   GET /api/vehicles/:id
-// @access  Private
+
 export const getVehicle = async (req, res) => {
+
   try {
-    const vehicle = await Vehicle.findById(req.params.id)
-      .populate('currentDriver', 'name phone licenseNumber')
-      .populate('createdBy', 'name');
+
+    const vehicle =
+      await Vehicle.findByPk(req.params.id, {
+
+        include: [
+          {
+            model: Driver,
+            as: 'driver',
+            attributes: [
+              'driver_id',
+              'driver_name',
+              'phone_number',
+              'license_number'
+            ]
+          }
+        ]
+      });
 
     if (!vehicle) {
+
       return res.status(404).json({
         success: false,
         error: 'Vehicle not found'
       });
     }
 
-    // Check document expiry status
-    await vehicle.checkExpiringDocuments();
-
-    res.json({
+    return res.status(200).json({
       success: true,
-      data: { vehicle }
+      data: vehicle
     });
+
   } catch (error) {
-    logger.error('Get vehicle error:', error);
-    res.status(500).json({
+
+    console.error(error);
+
+    return res.status(500).json({
       success: false,
-      error: 'Server error'
+      error: error.message
     });
   }
 };
