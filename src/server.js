@@ -18,7 +18,7 @@ import tripRoutes from './routes/trips.js';
 import maintenanceRoutes from './routes/maintenance.js';
 import alertRoutes from './routes/alerts.js';
 import supervisorRoutes from './routes/supervisors.js';
-import supervisorAssignmentRoutes from './routes/supervisorAssignments.js';
+// import supervisorAssignmentRoutes from './routes/supervisorAssignments.js';
 
 // Load environment variables
 dotenv.config();
