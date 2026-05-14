@@ -9,7 +9,7 @@ const router = express.Router();
 
 
 router.get(
-  '/:driver_id/attendance',
+  '/:driver_id',
   getDriverAttendance
 );
 
