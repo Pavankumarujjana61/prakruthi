@@ -264,8 +264,7 @@ export const getDriverCurrentStatus = async (req, res) => {
         'phone_number',
         'current_status',
         'license_number',
-        'joining_date',
-        'photo'
+        'joining_date'
       ]
     });
 
