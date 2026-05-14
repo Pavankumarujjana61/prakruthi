@@ -1,4 +1,34 @@
-import { logModels } from '../logs/logRegistry.js';
+import {
+  FuelLog,
+  MaintenanceLog,
+  NationalPermitLog,
+  VehiclePermitLog,
+  VehicleBatteryLog,
+  VehicleTyreLog,
+  VehicleInsuranceLog,
+  VehicleTaxLog,
+  VehicleGreaseLog,
+  VehicleEngineOilLog,
+  VehicleFitnessLog,
+  VehiclePollutionLog,
+  VehicleAlignmentLog
+} from '../models/index.js';
+
+const logModels = {
+  fuel: FuelLog,
+  maintenance: MaintenanceLog,
+  national_permit: NationalPermitLog,
+  permit: VehiclePermitLog,
+  battery: VehicleBatteryLog,
+  tyre: VehicleTyreLog,
+  insurance: VehicleInsuranceLog,
+  tax: VehicleTaxLog,
+  grease: VehicleGreaseLog,
+  engine_oil: VehicleEngineOilLog,
+  fitness: VehicleFitnessLog,
+  pollution: VehiclePollutionLog,
+  alignment: VehicleAlignmentLog
+};
 
 export const createVehicleLog = async (req, res) => {
   try {
