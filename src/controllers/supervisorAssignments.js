@@ -1,11 +1,8 @@
-import SupervisorVehicleAssignment
-from '../models/SupervisorVehicleAssignment.js';
-
-import Supervisor
-from '../models/Supervisor.js';
-
-import Vehicle
-from '../models/Vehicle.js';
+import {
+  SupervisorVehicleAssignment,
+  Supervisor,
+  Vehicle
+} from '../models/index.js';
 
 export const assignVehicleToSupervisor =
 async (req, res) => {

@@ -4,6 +4,7 @@ import helmet from 'helmet';
 import compression from 'compression';
 import rateLimit from 'express-rate-limit';
 import dotenv from 'dotenv';
+import './models/index.js';
 import connectDB from './config/database.js';
 import logger from './utils/logger.js';
 import errorHandler from './middleware/errorHandler.js';
