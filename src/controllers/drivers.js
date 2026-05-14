@@ -4,7 +4,15 @@ export const createDriver = async (req, res) => {
 
   try {
 
-    const driver = await Driver.create(req.body);
+    // Assuming supervisor data comes from auth middleware
+    const supervisor_id = req.user.supervisor_id;
+
+    const payload = {
+      ...req.body,
+      supervisor_id
+    };
+
+    const driver = await Driver.create(payload);
 
     return res.status(201).json({
       success: true,
@@ -146,7 +154,7 @@ export const approveDriver = async (req, res) => {
 
     await driver.update({
       current_status: 'active',
-      approved_by: 1,
+      approved_by: req.user.id,
       approved_at: new Date(),
     });
 
@@ -179,7 +187,7 @@ export const rejectDriver = async (req, res) => {
 
     await driver.update({
       current_status: 'rejected',
-      rejected_by: 1,
+      rejected_by: req.user.id,
       rejected_at: new Date(),
     });
 

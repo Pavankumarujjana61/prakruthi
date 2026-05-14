@@ -9,6 +9,11 @@ const Driver = sequelize.define('Driver', {
     primaryKey: true,
   },
 
+   supervisor_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+  },
+
   driver_name: {
     type: DataTypes.STRING(150),
     allowNull: false,
