@@ -58,6 +58,18 @@ sequelize.define('SupervisorVehicleAssignment', {
 
 export default SupervisorVehicleAssignment;
 
+SupervisorVehicleAssignment.belongsTo(Vehicle, {
+  foreignKey: 'vehicle_id'
+});
+
+SupervisorVehicleAssignment.belongsTo(Supervisor, {
+  foreignKey: 'supervisor_id',
+});
+
+Supervisor.hasMany(SupervisorVehicleAssignment, {
+  foreignKey: 'supervisor_id',
+});
+
 // SupervisorVehicleAssignment.belongsTo(
 //   Vehicle,
 //   {
