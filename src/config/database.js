@@ -37,7 +37,7 @@ const connectDB = async () => {
     console.log(`🗄️  MySQL Connected: ${process.env.DB_HOST}`);
     
     // Sync models with database
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
     logger.info('Database models synchronized');
   } catch (error) {
     logger.error('MySQL connection error:', error);
