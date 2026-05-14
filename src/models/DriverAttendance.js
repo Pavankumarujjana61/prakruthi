@@ -44,3 +44,5 @@ const DriverAttendance = sequelize.define('DriverAttendance', {
 }, {
   tableName: 'driver_attendance'
 });
+
+export default DriverAttendance;
