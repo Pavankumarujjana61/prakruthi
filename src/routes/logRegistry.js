@@ -3,7 +3,7 @@ import express from 'express';
 import {
   createVehicleLog,
   getVehicleLogs
-} from '../controllers/vehicleLogs.js';
+} from '../controllers/logRegistry.js';
 
 const router = express.Router();
 
