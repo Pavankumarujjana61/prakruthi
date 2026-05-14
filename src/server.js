@@ -21,7 +21,7 @@ import alertRoutes from './routes/alerts.js';
 import supervisorRoutes from './routes/supervisors.js';
 import supervisorAssignmentRoutes from './routes/supervisorAssignments.js';
 import driverAttendanceRoutes from './routes/DriverAttendance.js';
-import logRegistryRoutes from './routes/logRegistryRoutes.js';
+import logRegistryRoutes from './routes/logRegistry.js';
 
 // Load environment variables
 dotenv.config();
