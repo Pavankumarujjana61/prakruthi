@@ -193,7 +193,7 @@ export const approveDriver = async (req, res) => {
 
     await driver.update({
       current_status: 'active',
-      approved_by: req.user.id,
+      approved_by: 'admin', // This should ideally come from the authenticated user
       approved_at: new Date(),
     });
 
@@ -226,7 +226,7 @@ export const rejectDriver = async (req, res) => {
 
     await driver.update({
       current_status: 'rejected',
-      rejected_by: req.user.id,
+      rejected_by: 'admin', // This should ideally come from the authenticated user
       rejected_at: new Date(),
     });
 
