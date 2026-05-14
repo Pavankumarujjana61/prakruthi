@@ -70,7 +70,3 @@ const Vehicle = sequelize.define('Vehicle', {
 });
 
 export default Vehicle;
-
-Vehicle.hasMany(SupervisorVehicleAssignment, {
-  foreignKey: 'vehicle_id'
-});

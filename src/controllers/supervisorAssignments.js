@@ -104,10 +104,11 @@ async (req, res) => {
         },
 
         include: [
-          {
-            model: Vehicle,
-          }
-        ]
+        {
+          model: Vehicle,
+          as: 'vehicle'
+        }
+      ]
       });
 
     return res.json({
