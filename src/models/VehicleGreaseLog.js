@@ -20,6 +20,8 @@ const VehicleGreaseLog = sequelize.define('VehicleGreaseLog', {
 
   grease_quantity: DataTypes.STRING,
 
+  kilometers: DataTypes.STRING,
+
   amount: DataTypes.DECIMAL(12,2),
 
   next_due_date: DataTypes.DATEONLY,
