@@ -84,20 +84,7 @@ Supervisor.hasMany(
   }
 );
 
-Trip.hasMany(TripTimeline, {
-  foreignKey: 'trip_id',
-  as: 'timeline'
-});
 
-Trip.hasMany(FuelLog, {
-  foreignKey: 'trip_id',
-  as: 'fuel_logs'
-});
-
-Trip.hasMany(Expense, {
-  foreignKey: 'trip_id',
-  as: 'expenses'
-});
 // ======================================
 // Driver Attendance
 // ======================================
@@ -110,6 +97,71 @@ DriverAttendance.belongsTo(Driver, {
 Driver.hasMany(DriverAttendance, {
   foreignKey: 'driver_id',
   as: 'attendance'
+});
+
+
+// ======================================
+// Trip Associations
+// ======================================
+
+Trip.belongsTo(Vehicle, {
+  foreignKey: 'vehicle_id',
+  as: 'vehicle'
+});
+
+Vehicle.hasMany(Trip, {
+  foreignKey: 'vehicle_id',
+  as: 'trips'
+});
+
+Trip.belongsTo(Driver, {
+  foreignKey: 'driver_id',
+  as: 'driver'
+});
+
+Driver.hasMany(Trip, {
+  foreignKey: 'driver_id',
+  as: 'trips'
+});
+
+Trip.belongsTo(Supervisor, {
+  foreignKey: 'supervisor_id',
+  as: 'supervisor'
+});
+
+Supervisor.hasMany(Trip, {
+  foreignKey: 'supervisor_id',
+  as: 'trips'
+});
+
+Trip.hasMany(TripTimeline, {
+  foreignKey: 'trip_id',
+  as: 'timeline'
+});
+
+TripTimeline.belongsTo(Trip, {
+  foreignKey: 'trip_id',
+  as: 'trip'
+});
+
+Trip.hasMany(FuelLog, {
+  foreignKey: 'trip_id',
+  as: 'fuel_logs'
+});
+
+FuelLog.belongsTo(Trip, {
+  foreignKey: 'trip_id',
+  as: 'trip'
+});
+
+Trip.hasMany(Expense, {
+  foreignKey: 'trip_id',
+  as: 'expenses'
+});
+
+Expense.belongsTo(Trip, {
+  foreignKey: 'trip_id',
+  as: 'trip'
 });
 
 // ======================================
@@ -188,7 +240,6 @@ Driver.hasMany(VehicleBatteryLog, {
 // ======================================
 // Exports
 // ======================================
-
 export {
 
   Vehicle,
@@ -196,6 +247,12 @@ export {
   Driver,
 
   Supervisor,
+
+  Trip,
+
+  Expense,
+
+  TripTimeline,
 
   SupervisorVehicleAssignment,
 
