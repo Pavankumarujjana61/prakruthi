@@ -20,6 +20,8 @@ const VehicleBatteryLog = sequelize.define('VehicleBatteryLog', {
 
   type: DataTypes.STRING,
 
+  battery_number: DataTypes.STRING,
+
   battery_capacity: DataTypes.STRING,
 
   installation_date: DataTypes.DATEONLY,
