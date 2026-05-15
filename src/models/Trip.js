@@ -64,7 +64,7 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.DECIMAL(10,2)
   },
 
-  fuel_consumed: {
+  fuel_liters: {
     type: DataTypes.DECIMAL(10,2),
     defaultValue: 0
   },
@@ -79,10 +79,10 @@ const Trip = sequelize.define('Trip', {
     defaultValue: 0
   },
 
-  trip_profit: {
-    type: DataTypes.DECIMAL(12,2),
-    defaultValue: 0
-  },
+  // trip_profit: {
+  //   type: DataTypes.DECIMAL(12,2),
+  //   defaultValue: 0
+  // },
 
   trip_amount: {
     type: DataTypes.DECIMAL(12,2),
