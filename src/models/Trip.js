@@ -65,8 +65,7 @@ const Trip = sequelize.define('Trip', {
   },
 
   fuel_liters: {
-    type: DataTypes.DECIMAL(10,2),
-    defaultValue: 0
+    type: DataTypes.STRING
   },
 
   mileage: {
