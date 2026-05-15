@@ -12,7 +12,8 @@ import {
   VehicleFitnessLog,
   VehiclePollutionLog,
   VehicleAlignmentLog,
-  VehicleRadiatorWaterLog
+  VehicleRadiatorWaterLog,
+  Expense
 } from '../models/index.js';
 
 const logModels = {
@@ -29,7 +30,8 @@ const logModels = {
   fitness: VehicleFitnessLog,
   pollution: VehiclePollutionLog,
   alignment: VehicleAlignmentLog,
-  radiator_water: VehicleRadiatorWaterLog
+  radiator_water: VehicleRadiatorWaterLog,
+  expense: Expense
 };
 
 export const createVehicleLog = async (req, res) => {
