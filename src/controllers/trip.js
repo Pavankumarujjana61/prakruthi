@@ -338,8 +338,9 @@ export const addTimeline = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: 'Failed to add timeline'
-    });
+      message: error.message,
+        error
+      });
 
   }
 
