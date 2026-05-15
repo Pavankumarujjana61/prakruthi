@@ -15,24 +15,118 @@ export const getTrips = async (req, res) => {
 
   try {
 
+    const {
+      status,
+      vehicle_id,
+      driver_id,
+      start_date,
+      end_date,
+      search
+    } = req.query;
+
+    const where = {};
+
+    // Status Filter
+    if (status) {
+      where.trip_status = status;
+    }
+
+    // Vehicle Filter
+    if (vehicle_id) {
+      where.vehicle_id = vehicle_id;
+    }
+
+    // Driver Filter
+    if (driver_id) {
+      where.driver_id = driver_id;
+    }
+
+    // Date Filter
+    if (start_date && end_date) {
+
+      where.created_at = {
+        [Op.between]: [
+          new Date(start_date),
+          new Date(end_date)
+        ]
+      };
+
+    }
+
+    // Search Filter
+    if (search) {
+
+      where[Op.or] = [
+
+        {
+          trip_number: {
+            [Op.like]: `%${search}%`
+          }
+        },
+
+        {
+          customer_name: {
+            [Op.like]: `%${search}%`
+          }
+        },
+
+        {
+          start_location: {
+            [Op.like]: `%${search}%`
+          }
+        },
+
+        {
+          end_location: {
+            [Op.like]: `%${search}%`
+          }
+        }
+
+      ];
+
+    }
+
     const trips = await Trip.findAll({
+
+      where,
+
       include: [
+
         {
           model: Vehicle,
-          as: 'vehicle'
+          as: 'vehicle',
+          attributes: [
+            'vehicle_id',
+            'vehicle_number'
+          ]
         },
+
         {
           model: Driver,
-          as: 'driver'
+          as: 'driver',
+          attributes: [
+            'driver_id',
+            'driver_name',
+            'phone_number'
+          ]
         }
+
       ],
-      order: [['created_at', 'DESC']]
+
+      order: [
+        ['trip_id', 'DESC']
+      ]
+
     });
 
     return res.status(200).json({
+
       success: true,
+
       count: trips.length,
+
       data: trips
+
     });
 
   } catch (error) {
@@ -40,8 +134,11 @@ export const getTrips = async (req, res) => {
     console.log(error);
 
     return res.status(500).json({
+
       success: false,
-      message: 'Failed to fetch trips'
+
+      message: error.message
+
     });
 
   }
@@ -564,6 +661,137 @@ export const getDashboardSummary = async (req, res) => {
       success: false,
        message: error.message,
         error
+    });
+
+  }
+
+};
+
+export const getCompletedTrips = async (req, res) => {
+
+  try {
+
+    const trips = await Trip.findAll({
+
+      where: {
+        trip_status: 'completed'
+      },
+
+      include: [
+
+        {
+          model: Vehicle,
+          as: 'vehicle',
+          attributes: [
+            'vehicle_id',
+            'vehicle_number'
+          ]
+        },
+
+        {
+          model: Driver,
+          as: 'driver',
+          attributes: [
+            'driver_id',
+            'driver_name',
+            'phone_number'
+          ]
+        }
+
+      ],
+
+      order: [
+        ['actual_end_datetime', 'DESC']
+      ]
+
+    });
+
+    const formattedTrips = trips.map((trip) => {
+
+      const tripAmount =
+        Number(trip.trip_amount || 0);
+
+      const totalExpense =
+        Number(trip.total_expense || 0);
+
+      return {
+
+        trip_id: trip.trip_id,
+
+        trip_number: trip.trip_number,
+
+        vehicle_number:
+          trip.vehicle?.vehicle_number || null,
+
+        driver_name:
+          trip.driver?.driver_name || null,
+
+        customer_name:
+          trip.customer_name,
+
+        material_name:
+          trip.material_name,
+
+        start_location:
+          trip.start_location,
+
+        end_location:
+          trip.end_location,
+
+        distance_km:
+          trip.distance_km,
+
+        trip_amount:
+          tripAmount,
+
+        total_expense:
+          totalExpense,
+
+        profit:
+          tripAmount - totalExpense,
+
+        mileage:
+          trip.mileage,
+
+        fuel_consumed:
+          trip.fuel_consumed,
+
+        trip_start_datetime:
+          trip.trip_start_datetime,
+
+        actual_end_datetime:
+          trip.actual_end_datetime,
+
+        payment_status:
+          trip.payment_status,
+
+        trip_status:
+          trip.trip_status
+
+      };
+
+    });
+
+    return res.status(200).json({
+
+      success: true,
+
+      count: formattedTrips.length,
+
+      data: formattedTrips
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+
+      success: false,
+
+      message: error.message
+
     });
 
   }

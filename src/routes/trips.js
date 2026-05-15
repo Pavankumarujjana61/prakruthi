@@ -7,7 +7,8 @@ import {
   startTrip,
   completeTrip,
   addTimeline,
-  getDashboardSummary
+  getDashboardSummary,
+  getCompletedTrips
 } from '../controllers/trip.js';
 
 const router = express.Router();
@@ -15,6 +16,8 @@ const router = express.Router();
 router.get('/', getTrips);
 
 router.get('/dashboard/summary', getDashboardSummary);
+
+router.get('/completed/list', getCompletedTrips);
 
 router.get('/:id/details', getTripDetails);
 
