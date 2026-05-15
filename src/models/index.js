@@ -1,6 +1,7 @@
 import Vehicle from './Vehicle.js';
 import Driver from './Driver.js';
 import Supervisor from './Supervisor.js';
+import Trip from './Trip.js';
 
 import SupervisorVehicleAssignment
 from './SupervisorVehicleAssignment.js';
@@ -9,6 +10,8 @@ import DriverAttendance
 from './DriverAttendance.js';
 
 import FuelLog from './FuelLog.js';
+import Expense from './Expense.js';
+import TripTimeline from './TripTimeline.js';
 
 import MaintenanceLog
 from './MaintenanceLog.js';
@@ -81,7 +84,20 @@ Supervisor.hasMany(
   }
 );
 
+Trip.hasMany(TripTimeline, {
+  foreignKey: 'trip_id',
+  as: 'timeline'
+});
 
+Trip.hasMany(FuelLog, {
+  foreignKey: 'trip_id',
+  as: 'fuel_logs'
+});
+
+Trip.hasMany(Expense, {
+  foreignKey: 'trip_id',
+  as: 'expenses'
+});
 // ======================================
 // Driver Attendance
 // ======================================

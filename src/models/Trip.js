@@ -1,130 +1,109 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import { sequelize } from '../config/database.js';
 
-const tripSchema = new mongoose.Schema({
-  tripId: {
-    type: String,
-    required: true,
-    unique: true,
-    uppercase: true
+const Trip = sequelize.define('Trip', {
+
+  trip_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true
   },
-  vehicle: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Vehicle',
-    required: [true, 'Please assign a vehicle to the trip']
+
+  trip_number: {
+    type: DataTypes.STRING,
+    unique: true
   },
-  driver: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'Driver',
-    required: [true, 'Please assign a driver to the trip']
+
+  vehicle_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
-  route: {
-    from: {
-      type: String,
-      required: [true, 'Please add starting location'],
-      trim: true
-    },
-    to: {
-      type: String,
-      required: [true, 'Please add destination'],
-      trim: true
-    }
+
+  driver_id: {
+    type: DataTypes.INTEGER,
+    allowNull: false
   },
-  distance: {
-    type: Number,
-    required: [true, 'Please add trip distance'],
-    min: [0, 'Distance cannot be negative']
+
+  supervisor_id: {
+    type: DataTypes.INTEGER
   },
-  status: {
-    type: String,
-    enum: ['Not Started', 'In Progress', 'Loading Done', 'Unloading Done', 'Completed', 'Cancelled'],
-    default: 'Not Started'
+
+  start_location: {
+    type: DataTypes.STRING
   },
-  startDate: {
-    type: Date,
-    required: [true, 'Please add start date']
+
+  end_location: {
+    type: DataTypes.STRING
   },
-  endDate: {
-    type: Date
+
+  customer_name: {
+    type: DataTypes.STRING
   },
-  actualStartTime: {
-    type: Date
+
+  material_name: {
+    type: DataTypes.STRING
   },
-  actualEndTime: {
-    type: Date
+
+  load_weight: {
+    type: DataTypes.DECIMAL(10,2)
   },
-  estimatedDuration: {
-    type: Number, // in hours
-    min: 0
+
+  trip_start_datetime: {
+    type: DataTypes.DATE
   },
-  actualDuration: {
-    type: Number, // in hours
-    min: 0
+
+  expected_end_datetime: {
+    type: DataTypes.DATE
   },
-  cargo: {
-    type: String,
-    description: String,
-    weight: Number, // in kg
-    value: Number // in INR
+
+  actual_end_datetime: {
+    type: DataTypes.DATE
   },
-  fuelConsumed: {
-    type: Number,
-    min: 0
+
+  distance_km: {
+    type: DataTypes.DECIMAL(10,2)
   },
-  notes: {
-    type: String,
-    maxlength: [500, 'Notes cannot be more than 500 characters']
+
+  fuel_consumed: {
+    type: DataTypes.DECIMAL(10,2),
+    defaultValue: 0
   },
-  createdBy: {
-    type: mongoose.Schema.ObjectId,
-    ref: 'User',
-    required: true
+
+  mileage: {
+    type: DataTypes.DECIMAL(10,2),
+    defaultValue: 0
+  },
+
+  total_expense: {
+    type: DataTypes.DECIMAL(12,2),
+    defaultValue: 0
+  },
+
+  trip_profit: {
+    type: DataTypes.DECIMAL(12,2),
+    defaultValue: 0
+  },
+
+  trip_amount: {
+    type: DataTypes.DECIMAL(12,2),
+    defaultValue: 0
+  },
+
+  trip_status: {
+    type: DataTypes.ENUM(
+      'scheduled',
+      'started',
+      'completed',
+      'cancelled'
+    ),
+    defaultValue: 'scheduled'
   }
+
 }, {
+  tableName: 'trips',
   timestamps: true,
-  toJSON: { virtuals: true },
-  toObject: { virtuals: true }
+  createdAt: 'created_at',
+  updatedAt: 'updated_at'
 });
 
-// Index for better query performance
-tripSchema.index({ tripId: 1 });
-tripSchema.index({ status: 1 });
-tripSchema.index({ startDate: -1 });
-tripSchema.index({ vehicle: 1, startDate: -1 });
-tripSchema.index({ driver: 1, startDate: -1 });
-
-// Virtual for formatted route
-tripSchema.virtual('formattedRoute').get(function() {
-  return `${this.route.from} → ${this.route.to}`;
-});
-
-// Pre-save middleware to generate tripId
-tripSchema.pre('save', async function(next) {
-  if (this.isNew && !this.tripId) {
-    // Generate trip ID like TRP00001
-    const count = await mongoose.model('Trip').countDocuments();
-    this.tripId = `TRP${String(count + 1).padStart(5, '0')}`;
-  }
-  next();
-});
-
-// Instance method to start trip
-tripSchema.methods.startTrip = function() {
-  this.status = 'In Progress';
-  this.actualStartTime = new Date();
-  return this.save();
-};
-
-// Instance method to complete trip
-tripSchema.methods.completeTrip = function() {
-  this.status = 'Completed';
-  this.endDate = new Date();
-  this.actualEndTime = new Date();
-
-  if (this.actualStartTime) {
-    this.actualDuration = (this.actualEndTime - this.actualStartTime) / (1000 * 60 * 60); // hours
-  }
-
-  return this.save();
-};
-
-export default mongoose.model('Trip', tripSchema);
+export default Trip;
