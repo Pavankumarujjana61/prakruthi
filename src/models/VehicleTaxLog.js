@@ -25,7 +25,9 @@ const VehicleTaxLog = sequelize.define('VehicleTaxLog', {
 
   expiry_date: DataTypes.DATEONLY,
 
-  receipt_file: DataTypes.STRING
+  receipt_file: DataTypes.STRING,
+
+  register_number: DataTypes.STRING
 
 }, {
 
