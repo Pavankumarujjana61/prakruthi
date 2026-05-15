@@ -158,8 +158,9 @@ export const getTripDetails = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: 'Failed to fetch trip details'
-    });
+      message: error.message,
+          error
+      });
 
   }
 
@@ -561,7 +562,8 @@ export const getDashboardSummary = async (req, res) => {
 
     return res.status(500).json({
       success: false,
-      message: 'Failed to fetch dashboard summary'
+       message: error.message,
+        error
     });
 
   }
