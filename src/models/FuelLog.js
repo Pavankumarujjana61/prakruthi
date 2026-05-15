@@ -20,6 +20,10 @@ const FuelLog = sequelize.define(
       type: DataTypes.INTEGER
     },
 
+    trip_id: {
+      type: DataTypes.INTEGER
+    },
+
     fuel_date: {
       type: DataTypes.DATEONLY
     },
