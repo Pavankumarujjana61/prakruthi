@@ -62,41 +62,59 @@ export const createDriverAttendance = async (req, res) => {
     }
 
     // Prevent duplicate attendance
-    const alreadyMarked =
-      await DriverAttendance.findOne({
-
-        where: {
-          driver_id,
-          attendance_date
-        }
-      });
+    const alreadyMarked = await DriverAttendance.findOne({
+      where: {
+        driver_id,
+        attendance_date
+      }
+    });
 
     if (alreadyMarked) {
 
       return res.status(400).json({
         success: false,
-        error:
-          'Attendance already marked for this date'
+        error: 'Attendance already marked for this date'
       });
     }
 
     // Create attendance
-    const attendance =
-      await DriverAttendance.create({
+    const attendance = await DriverAttendance.create({
 
-        driver_id,
-        attendance_date,
-        working_hours,
-        check_in,
-        check_out,
-        status,
-        remarks
-      });
+      driver_id,
+      attendance_date,
+      working_hours,
+      check_in,
+      check_out,
+      status,
+      remarks
+    });
+
+    // Update driver current_status
+    let driverStatus = driver.current_status;
+
+    if (status === 'present') {
+
+      driverStatus = 'active';
+
+    } else if (status === 'absent') {
+
+      driverStatus = 'leave';
+    }
+
+    await Driver.update(
+      {
+        current_status: driverStatus
+      },
+      {
+        where: {
+          driver_id
+        }
+      }
+    );
 
     return res.status(201).json({
       success: true,
-      message:
-        'Driver attendance marked successfully',
+      message: 'Driver attendance marked successfully',
       data: attendance
     });
 

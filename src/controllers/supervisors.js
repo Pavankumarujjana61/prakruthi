@@ -280,7 +280,8 @@ export const getSupervisorDashboard = async (req, res) => {
     const drivers_count =
       await Driver.count({
         where: {
-          supervisor_id
+          supervisor_id,
+          current_status: 'active'
         }
       });
 
