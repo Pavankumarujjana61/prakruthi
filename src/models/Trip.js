@@ -102,6 +102,26 @@ const Trip = sequelize.define('Trip', {
   //   defaultValue: 0
   // },
 
+  drop_datetime: {
+  type: DataTypes.DATE,
+  allowNull: true
+},
+
+drop_odometer: {
+  type: DataTypes.DECIMAL(10, 2),
+  defaultValue: 0
+},
+
+loaded_trip_km: {
+  type: DataTypes.DECIMAL(10, 2),
+  defaultValue: 0
+},
+
+return_km: {
+  type: DataTypes.DECIMAL(10, 2),
+  defaultValue: 0
+},
+
   trip_status: {
     type: DataTypes.ENUM(
       'scheduled',
