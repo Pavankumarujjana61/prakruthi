@@ -68,11 +68,12 @@ export const dashboard = (
   res
 ) => {
 
+
   res.render(
     'admin/dashboard',
     {
-      admin_name:
-        req.session.admin_name
+      admin_name: req.session.admin_name,
+      currentPage: 'dashboard'
     }
   );
 
