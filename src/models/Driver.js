@@ -11,7 +11,7 @@ const Driver = sequelize.define('Driver', {
 
    supervisor_id: {
     type: DataTypes.INTEGER,
-    allowNull: false,
+    allowNull: true,
   },
 
   driver_name: {
@@ -54,6 +54,7 @@ const Driver = sequelize.define('Driver', {
   license_number: {
     type: DataTypes.STRING(100),
     allowNull: false,
+    unique: true,
   },
 
   license_expiry: {
@@ -93,7 +94,7 @@ const Driver = sequelize.define('Driver', {
     'on_trip',
     'leave'
   ),
-  defaultValue: 'pending',
+  defaultValue: 'active',
 },
 
   remarks: {

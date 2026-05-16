@@ -14,6 +14,15 @@ import {
   updateVehicle,
   deleteVehicle
 } from '../controllers/adminVehiclesController.js';
+import {
+  listDrivers,
+  addDriverPage,
+  createDriver,
+  editDriverPage,
+  updateDriver,
+  deleteDriver,
+  viewDriver
+} from '../controllers/adminDriversController.js';
 
 const router = express.Router();
 
@@ -44,6 +53,14 @@ router.post('/admin/vehicles/add', adminAuth, createVehicle);
 router.get('/admin/vehicles/edit/:id', adminAuth, editVehiclePage);
 router.post('/admin/vehicles/edit/:id', adminAuth, updateVehicle);
 router.get('/admin/vehicles/delete/:id', adminAuth, deleteVehicle);
+
+router.get('/admin/drivers', adminAuth, listDrivers);
+router.get('/admin/drivers/add', adminAuth, addDriverPage);
+router.post('/admin/drivers/add', adminAuth, createDriver);
+router.get('/admin/drivers/view/:id', adminAuth, viewDriver);
+router.get('/admin/drivers/edit/:id', adminAuth, editDriverPage);
+router.post('/admin/drivers/edit/:id', adminAuth, updateDriver);
+router.get('/admin/drivers/delete/:id', adminAuth, deleteDriver);
 
 router.get('/check-session', (req, res) => {
 
