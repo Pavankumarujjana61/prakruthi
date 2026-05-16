@@ -67,6 +67,7 @@ export const dashboard = async (req, res) => {
   try {
     const dashboardData = {
       admin_name: req.session?.admin_name || 'Admin',
+      currentPage: 'dashboard',
 
       totalVehicles: (await Vehicle.count()) || 0,
       totalDrivers: (await Driver.count()) || 0,
@@ -89,6 +90,8 @@ export const dashboard = async (req, res) => {
 
     return res.status(500).render('admin/dashboard', {
       admin_name: req.session?.admin_name || 'Admin',
+      currentPage: 'dashboard',
+
       totalVehicles: 0,
       totalDrivers: 0,
       activeRoutes: 0,
