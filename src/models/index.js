@@ -118,16 +118,6 @@ Driver.hasMany(DriverAttendance, {
 // Trip Associations
 // ======================================
 
-Trip.belongsTo(Vehicle, {
-  foreignKey: 'vehicle_id',
-  as: 'vehicle'
-});
-
-Vehicle.hasMany(Trip, {
-  foreignKey: 'vehicle_id',
-  as: 'trips'
-});
-
 Trip.belongsTo(Driver, {
   foreignKey: 'driver_id',
   as: 'driver'
