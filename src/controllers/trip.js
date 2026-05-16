@@ -376,6 +376,7 @@ export const startTrip = async (req, res) => {
 
     await trip.update({
       trip_status: 'started',
+      trip_progress: 'in_transit',
       trip_start_datetime: new Date()
     });
 
@@ -409,7 +410,110 @@ export const startTrip = async (req, res) => {
 
 };
 
+// ==========================================
+// DROP TRIP
+// ==========================================
+export const dropTrip = async (req, res) => {
 
+  try {
+
+    const { id } = req.params;
+
+    const {
+      drop_datetime,
+      drop_odometer,
+      remarks
+    } = req.body;
+
+    const trip = await Trip.findByPk(id);
+
+    if (!trip) {
+
+      return res.status(404).json({
+        success: false,
+        message: 'Trip not found'
+      });
+
+    }
+
+    if (trip.trip_status !== 'started') {
+
+      return res.status(400).json({
+        success: false,
+        message: 'Trip must be started first'
+      });
+
+    }
+
+    // Loaded Trip KM
+    const loaded_trip_km =
+      Number(drop_odometer || 0)
+      - Number(trip.start_odometer || 0);
+
+    // Update Trip
+    await trip.update({
+
+      trip_status: 'dropped',
+
+      trip_progress: 'delivered',
+
+      drop_datetime:
+        drop_datetime || new Date(),
+
+      drop_odometer,
+
+      loaded_trip_km,
+
+      current_location: trip.end_location
+
+    });
+
+    // Timeline Entry
+    await TripTimeline.create({
+
+      trip_id: trip.trip_id,
+
+      timeline_type: 'drop',
+
+      location_name: trip.end_location,
+
+      remarks:
+        remarks || 'Material delivered successfully',
+
+      odometer_reading: drop_odometer,
+
+      timeline_datetime:
+        drop_datetime || new Date()
+
+    });
+
+    return res.status(200).json({
+
+      success: true,
+
+      message: 'Trip dropped successfully',
+
+      data: {
+        loaded_trip_km
+      }
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+
+      success: false,
+
+      message: error.message
+
+    });
+
+  }
+
+};
 // ==========================================
 // ADD TIMELINE ENTRY
 // ==========================================
@@ -536,14 +640,46 @@ export const completeTrip = async (req, res) => {
       - totalExpense;
 
     // Update Trip
-    await trip.update({
-      trip_status: 'completed',
-      actual_end_datetime: new Date(),
-      fuel_consumed: totalFuelLiters,
-      total_expense: totalExpense,
-      mileage,
-      trip_profit: profit
-    });
+   const {
+  end_odometer,
+  remarks
+} = req.body;
+
+// Return KM
+const return_km =
+  Number(end_odometer || 0)
+  - Number(trip.drop_odometer || 0);
+
+// Total KM
+const total_distance =
+  Number(end_odometer || 0)
+  - Number(trip.start_odometer || 0);
+
+await trip.update({
+
+  trip_status: 'completed',
+
+  trip_progress: 'returned',
+
+  actual_end_datetime: new Date(),
+
+  end_odometer,
+
+  distance_km: total_distance,
+
+  return_km,
+
+  fuel_consumed: totalFuelLiters,
+
+  total_expense: totalExpense,
+
+  mileage,
+
+  trip_profit: profit,
+
+  current_location: trip.start_location
+
+});
 
     // Add Timeline
     await TripTimeline.create({

@@ -6,6 +6,7 @@ import {
   createTrip,
   startTrip,
   completeTrip,
+  dropTrip,
   addTimeline,
   getDashboardSummary,
   getCompletedTrips
@@ -24,6 +25,8 @@ router.get('/:id/details', getTripDetails);
 router.post('/', createTrip);
 
 router.put('/:id/start', startTrip);
+
+router.put('/:id/drop', dropTrip);
 
 router.put('/:id/complete', completeTrip);
 
