@@ -3,6 +3,7 @@ import {
   Supervisor,
   Vehicle
 } from '../models/index.js';
+import Trip from '../models/Trip.js';
 
 export const assignVehicleToSupervisor =
 async (req, res) => {
