@@ -277,13 +277,15 @@ export const createTrip = async (req, res) => {
       supervisor_id,
       start_location,
       end_location,
-      customer_name,
+      // customer_name,
       material_name,
       load_weight,
-      expected_end_datetime,
-      distance_km,
-      trip_amount,
-      remarks
+      // expected_end_datetime,
+      // distance_km,
+      // trip_amount,
+      remarks,
+      advance_taken,
+      advance_amount
     } = req.body;
 
     const tripCount = await Trip.count();
@@ -298,13 +300,15 @@ export const createTrip = async (req, res) => {
       supervisor_id,
       start_location,
       end_location,
-      customer_name,
+      // customer_name,
       material_name,
       load_weight,
-      expected_end_datetime,
-      distance_km,
-      trip_amount,
-      remarks
+      // expected_end_datetime,
+      // distance_km,
+      // trip_amount,
+      remarks,
+      advance_taken,
+      advance_amount
     });
 
     return res.status(201).json({
