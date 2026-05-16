@@ -22,7 +22,8 @@ export const getTrips = async (req, res) => {
       driver_id,
       start_date,
       end_date,
-      search
+      search,
+      supervisor_id
     } = req.query;
 
     const where = {};
