@@ -11,6 +11,9 @@ import errorHandler from './middleware/errorHandler.js';
 import notFound from './middleware/notFound.js';
 import session from 'express-session';
 
+
+
+
 // Import routes
 import authRoutes from './routes/auth.js';
 import userRoutes from './routes/users.js';
@@ -71,6 +74,20 @@ app.use(compression());
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+
+
+// Session admin data available in all EJS views
+app.use((req, res, next) => {
+
+  res.locals.admin = {
+    admin_id: req.session?.admin_id || null,
+    name: req.session?.admin_name || 'Admin'
+  };
+
+  next();
+
+});
 
 app.use(session({
 
