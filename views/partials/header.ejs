@@ -1,4 +1,5 @@
 <!-- Header Partial -->
+
 <style>
     :root {
         --primary: #0f3460;
@@ -12,7 +13,6 @@
         --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
     }
 
-    /* ===== HEADER ===== */
     .header {
         background: white;
         padding: 20px 32px;
@@ -72,10 +72,6 @@
         border-color: var(--secondary);
         background: white;
         box-shadow: 0 0 0 3px rgba(22, 160, 133, 0.1);
-    }
-
-    .search-box::placeholder {
-        color: var(--text-light);
     }
 
     .header-icon {
@@ -154,16 +150,6 @@
         font-size: 12px;
     }
 
-    .menu-toggle {
-        display: none;
-        background: none;
-        border: none;
-        color: var(--text-primary);
-        font-size: 20px;
-        cursor: pointer;
-    }
-
-    /* Dropdown Menu */
     .dropdown-menu {
         border: 1px solid var(--border-dark);
         border-radius: 12px;
@@ -175,7 +161,6 @@
         padding: 12px 16px;
         font-size: 14px;
         color: var(--text-secondary);
-        transition: all 0.2s ease;
     }
 
     .dropdown-item:hover {
@@ -183,43 +168,15 @@
         color: var(--secondary);
     }
 
-    .dropdown-divider {
-        margin: 8px 0;
-        border-color: var(--border-dark);
-    }
-
-    /* Responsive */
-    @media (max-width: 991px) {
-        .header {
-            left: 240px;
-        }
-
-        .search-box {
-            width: 200px;
-        }
-    }
-
     @media (max-width: 768px) {
+
         .header {
             left: 0;
             padding: 16px 20px;
-            height: 70px;
-        }
-
-        .header-left {
-            gap: 16px;
-        }
-
-        .menu-toggle {
-            display: flex;
         }
 
         .search-box {
             display: none;
-        }
-
-        .header-right {
-            gap: 12px;
         }
 
         .user-info {
@@ -233,155 +190,210 @@
 </style>
 
 <header class="header">
+
     <div class="header-left">
-        <button class="menu-toggle" id="menuToggle">
-            <i class="fas fa-bars"></i>
-        </button>
+
         <div class="breadcrumb-nav">
-            <span class="breadcrumb-item"><%= typeof breadcrumbFirst !== 'undefined'
-? breadcrumbFirst
-: 'Dashboard' %></span>
+
+            <span class="breadcrumb-item">
+                <%= typeof breadcrumbFirst !== 'undefined'
+                    ? breadcrumbFirst
+                    : 'Dashboard' %>
+            </span>
+
             <span style="color: var(--text-light);">/</span>
-            <span class="breadcrumb-item active"><%= typeof breadcrumbSecond !== 'undefined'
-? breadcrumbSecond
-: 'Overview' %></span>
+
+            <span class="breadcrumb-item active">
+                <%= typeof breadcrumbSecond !== 'undefined'
+                    ? breadcrumbSecond
+                    : 'Overview' %>
+            </span>
+
         </div>
+
     </div>
 
     <div class="header-right">
-        <input 
-            type="text" 
-            class="search-box" 
-            id="searchBox"
-            placeholder="Search vehicles, drivers, trips..."
+
+        <input
+            type="text"
+            class="search-box"
+            placeholder="Search..."
         >
-        
-        <button class="header-icon" id="notificationBtn" title="Notifications">
+
+        <button class="header-icon">
+
             <i class="fas fa-bell"></i>
-            <span class="notification-badge"><%= unreadNotifications || 3 %></span>
-        </button>
-        
-        <button class="header-icon" id="messageBtn" title="Messages">
-            <i class="fas fa-envelope"></i>
+
+            <span class="notification-badge">
+
+                <%= typeof unreadNotifications !== 'undefined'
+                    ? unreadNotifications
+                    : 3 %>
+
+            </span>
+
         </button>
 
         <div class="dropdown">
-            <div class="user-profile" data-bs-toggle="dropdown">
+
+            <div
+                class="user-profile"
+                data-bs-toggle="dropdown"
+            >
+
                 <div class="user-avatar">
-                    <%= (user?.firstName?.charAt(0) || 'A') + (user?.lastName?.charAt(0) || 'M') %>
+
+                    <%= admin && admin.name
+                        ? admin.name.charAt(0).toUpperCase()
+                        : 'A' %>
+
                 </div>
+
                 <div class="user-info">
-                    <h6><%= user?.firstName %> <%= user?.lastName %></h6>
-                    <small><%= user?.role || 'System Admin' %></small>
+
+                    <h6>
+
+                        <%= admin && admin.name
+                            ? admin.name
+                            : 'Admin' %>
+
+                    </h6>
+
+                    <small>System Admin</small>
+
                 </div>
-                <i class="fas fa-chevron-down" style="font-size: 12px; color: var(--text-light);"></i>
+
+                <i
+                    class="fas fa-chevron-down"
+                    style="font-size:12px;color:var(--text-light);"
+                ></i>
+
             </div>
 
             <ul class="dropdown-menu dropdown-menu-end">
+
                 <li>
-                    <a class="dropdown-item" href="/admin/profile">
-                        <i class="fas fa-user" style="margin-right: 8px;"></i>
+
+                    <a
+                        class="dropdown-item"
+                        href="/admin/dashboard"
+                    >
+                        <i class="fas fa-home me-2"></i>
+                        Dashboard
+                    </a>
+
+                </li>
+
+                <li>
+
+                    <a
+                        class="dropdown-item"
+                        href="/admin/profile"
+                    >
+                        <i class="fas fa-user me-2"></i>
                         Profile
                     </a>
+
                 </li>
-                <li>
-                    <a class="dropdown-item" href="/admin/settings">
-                        <i class="fas fa-cog" style="margin-right: 8px;"></i>
-                        Settings
-                    </a>
-                </li>
-                <li>
-                    <a class="dropdown-item" href="/admin/preferences">
-                        <i class="fas fa-sliders-h" style="margin-right: 8px;"></i>
-                        Preferences
-                    </a>
-                </li>
+
                 <li><hr class="dropdown-divider"></li>
+
                 <li>
-                    <a class="dropdown-item" href="/logout">
-                        <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i>
+
+                    <a
+                        class="dropdown-item"
+                        href="/admin/logout"
+                    >
+                        <i class="fas fa-sign-out-alt me-2"></i>
                         Logout
                     </a>
+
                 </li>
+
             </ul>
+
         </div>
+
     </div>
+
 </header>
 
-<!-- Notification Modal (Optional) -->
-<div class="modal fade" id="notificationModal" tabindex="-1">
+<!-- Notifications Modal -->
+
+<div
+    class="modal fade"
+    id="notificationModal"
+    tabindex="-1"
+>
+
     <div class="modal-dialog modal-lg">
+
         <div class="modal-content">
-            <div class="modal-header" style="border-bottom: 1px solid var(--border-dark);">
+
+            <div class="modal-header">
+
                 <h5 class="modal-title">
-                    <i class="fas fa-bell" style="margin-right: 8px; color: var(--secondary);"></i>
+
                     Notifications
+
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="modal"
+                ></button>
+
             </div>
-            <div class="modal-body" style="max-height: 400px; overflow-y: auto;">
-                <% if(notifications && notifications.length > 0) { %>
+
+            <div class="modal-body">
+
+                <% if (
+                    typeof notifications !== 'undefined' &&
+                    notifications.length > 0
+                ) { %>
+
                     <% notifications.forEach(notif => { %>
-                        <div style="padding: 12px; border-bottom: 1px solid var(--border-dark); cursor: pointer; transition: background 0.2s;" 
-                             onmouseover="this.style.background='var(--bg-light)'" 
-                             onmouseout="this.style.background='transparent'">
-                            <div style="display: flex; justify-content: space-between; align-items: start;">
-                                <div style="flex: 1;">
-                                    <h6 style="margin: 0 0 4px 0; color: var(--text-primary); font-weight: 600;">
-                                        <%= notif.title %>
-                                    </h6>
-                                    <p style="margin: 0 0 8px 0; color: var(--text-secondary); font-size: 13px;">
-                                        <%= notif.message %>
-                                    </p>
-                                    <small style="color: var(--text-light);">
-                                        <%= notif.timestamp %>
-                                    </small>
-                                </div>
-                                <% if(!notif.read) { %>
-                                    <span style="width: 8px; height: 8px; background: var(--secondary); border-radius: 50%; margin-left: 12px;"></span>
-                                <% } %>
-                            </div>
+
+                        <div
+                            style="
+                                padding:12px;
+                                border-bottom:1px solid #eee;
+                            "
+                        >
+
+                            <h6>
+                                <%= notif.title %>
+                            </h6>
+
+                            <p>
+                                <%= notif.message %>
+                            </p>
+
                         </div>
-                    <% }); %>
+
+                    <% }) %>
+
                 <% } else { %>
-                    <div style="text-align: center; padding: 40px 20px; color: var(--text-light);">
-                        <i class="fas fa-inbox" style="font-size: 32px; margin-bottom: 12px; display: block;"></i>
-                        <p>No notifications</p>
+
+                    <div
+                        style="
+                            text-align:center;
+                            padding:30px;
+                        "
+                    >
+
+                        No notifications
+
                     </div>
+
                 <% } %>
+
             </div>
+
         </div>
+
     </div>
+
 </div>
-
-<script>
-    // Notification Button
-    const notificationBtn = document.getElementById('notificationBtn');
-    if (notificationBtn) {
-        notificationBtn.addEventListener('click', () => {
-            const modal = new bootstrap.Modal(document.getElementById('notificationModal'));
-            modal.show();
-        });
-    }
-
-    // Search functionality
-    const searchBox = document.getElementById('searchBox');
-    if (searchBox) {
-        searchBox.addEventListener('keyup', (e) => {
-            const query = e.target.value.toLowerCase();
-            if (query.length > 2) {
-                console.log('Searching for:', query);
-                // Add your search API call here
-            }
-        });
-    }
-
-    // Message button
-    const messageBtn = document.getElementById('messageBtn');
-    if (messageBtn) {
-        messageBtn.addEventListener('click', () => {
-            console.log('Messages clicked');
-            // Add your messages page navigation here
-        });
-    }
-</script>
