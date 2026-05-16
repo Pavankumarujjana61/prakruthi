@@ -88,7 +88,17 @@ Supervisor.hasMany(
   }
 );
 
+// Vehicle associations
 
+Vehicle.hasMany(Trip, {
+  foreignKey: 'vehicle_id',
+  as: 'trips'
+});
+
+Trip.belongsTo(Vehicle, {
+  foreignKey: 'vehicle_id',
+  as: 'vehicle'
+});
 // ======================================
 // Driver Attendance
 // ======================================

@@ -374,6 +374,8 @@ export const startTrip = async (req, res) => {
       timeline_type: 'pickup',
       location_name: trip.start_location,
       remarks: 'Trip started',
+      odometer_reading: trip.odometer_reading,
+      fuel_level: trip.fuel_consumed,
       timeline_datetime: new Date()
     });
 

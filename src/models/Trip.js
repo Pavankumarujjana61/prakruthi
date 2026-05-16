@@ -53,6 +53,10 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.STRING
   },
 
+  odometer_reading: {
+    type: DataTypes.DECIMAL(10,2)
+  },
+
   // load_weight: {
   //   type: DataTypes.DECIMAL(10,2)
   // },

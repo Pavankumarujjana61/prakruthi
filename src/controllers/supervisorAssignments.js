@@ -86,9 +86,7 @@ async (req, res) => {
   }
 };
 
-
-export const getSupervisorVehicles =
-async (req, res) => {
+export const getSupervisorVehicles = async (req, res) => {
 
   try {
 
@@ -101,11 +99,38 @@ async (req, res) => {
         },
 
         include: [
-        {
-          model: Vehicle,
-          as: 'vehicle'
-        }
-      ]
+          {
+            model: Vehicle,
+            as: 'vehicle',
+
+            include: [
+              {
+                model: Trip,
+                as: 'trips',
+
+                where: {
+                  trip_status: ['scheduled', 'started']
+                },
+
+                required: false,
+
+                limit: 1,
+
+                order: [['trip_id', 'DESC']],
+
+                attributes: [
+                  'trip_id',
+                  'trip_number',
+                  'start_location',
+                  'end_location',
+                  'trip_status',
+                  'driver_id',
+                  'trip_start_datetime'
+                ]
+              }
+            ]
+          }
+        ]
       });
 
     return res.json({
@@ -119,5 +144,6 @@ async (req, res) => {
       success: false,
       error: error.message,
     });
+
   }
 };
