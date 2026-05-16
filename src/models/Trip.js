@@ -53,7 +53,7 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.STRING
   },
 
-  odometer_reading: {
+  start_odometer: {
     type: DataTypes.DECIMAL(10,2)
   },
 
