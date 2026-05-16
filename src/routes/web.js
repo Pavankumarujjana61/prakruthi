@@ -39,7 +39,8 @@ router.get(
 
 router.get('/admin/vehicles', async (req, res) => {
 
-  if (!req.session.admin) {
+  // CHECK SESSION PROPERLY
+  if (!req.session.admin_id) {
 
     return res.redirect('/admin');
 
@@ -58,7 +59,10 @@ router.get('/admin/vehicles', async (req, res) => {
     res.render(
       'admin/vehicles/index',
       {
-        admin: req.session.admin,
+        admin: {
+          admin_id: req.session.admin_id,
+          name: req.session.admin_name
+        },
         vehicles
       }
     );
