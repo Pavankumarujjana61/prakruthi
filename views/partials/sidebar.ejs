@@ -1,23 +1,296 @@
-<div class="sidebar">
+<!-- Sidebar Partial -->
+<style>
+    :root {
+        --primary: #0f3460;
+        --secondary: #16a085;
+        --accent: #e94560;
+        --text-primary: #1a1a1a;
+        --text-secondary: #666;
+        --text-light: #999;
+        --border-light: rgba(255, 255, 255, 0.1);
+        --bg-light: #f8f9fa;
+        --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
 
-  <a href="/admin/dashboard">
-    Dashboard
-  </a>
+    /* ===== SIDEBAR ===== */
+    .sidebar {
+        width: 280px;
+        background: linear-gradient(180deg, var(--primary) 0%, #0a1f3a 100%);
+        border-right: 1px solid var(--border-light);
+        position: fixed;
+        left: 0;
+        top: 0;
+        height: 100vh;
+        overflow-y: auto;
+        z-index: 1000;
+        box-shadow: 4px 0 20px rgba(0, 0, 0, 0.1);
+        padding-top: 0;
+        margin: 0;
+    }
 
-  <a href="/admin/vehicles">
-    Vehicles
-  </a>
+    .sidebar::-webkit-scrollbar {
+        width: 6px;
+    }
 
-  <a href="/admin/drivers">
-    Drivers
-  </a>
+    .sidebar::-webkit-scrollbar-track {
+        background: transparent;
+    }
 
-  <a href="/admin/trips">
-    Trips
-  </a>
+    .sidebar::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 3px;
+    }
 
-  <a href="/admin/logout">
-    Logout
-  </a>
+    .sidebar-brand {
+        padding: 32px 24px 24px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
 
-</div>
+    .brand-icon {
+        width: 50px;
+        height: 50px;
+        background: linear-gradient(135deg, var(--secondary) 0%, #13826a 100%);
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-size: 24px;
+        margin-bottom: 12px;
+        box-shadow: 0 8px 20px rgba(22, 160, 133, 0.3);
+    }
+
+    .brand-text {
+        font-size: 18px;
+        font-weight: 700;
+        color: white;
+        letter-spacing: -0.5px;
+    }
+
+    .brand-sub {
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.6);
+        margin-top: 4px;
+        text-transform: uppercase;
+        letter-spacing: 0.8px;
+    }
+
+    .sidebar-nav {
+        padding: 24px 0;
+        list-style: none;
+    }
+
+    .nav-item {
+        margin: 0;
+    }
+
+    .nav-link {
+        color: rgba(255, 255, 255, 0.7);
+        padding: 14px 24px;
+        font-size: 14px;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border-left: 3px solid transparent;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .nav-link i {
+        width: 18px;
+        text-align: center;
+    }
+
+    .nav-link:hover {
+        color: white;
+        background: rgba(255, 255, 255, 0.05);
+        border-left-color: var(--secondary);
+    }
+
+    .nav-link.active {
+        color: var(--secondary);
+        background: rgba(22, 160, 133, 0.15);
+        border-left-color: var(--secondary);
+    }
+
+    .sidebar-section {
+        margin-top: 32px;
+    }
+
+    .sidebar-section-title {
+        padding: 12px 24px;
+        font-size: 11px;
+        color: rgba(255, 255, 255, 0.5);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+        .sidebar {
+            width: 0;
+            transition: width 0.3s ease;
+        }
+
+        .sidebar.active {
+            width: 240px;
+        }
+    }
+</style>
+
+<aside class="sidebar" id="sidebar">
+    <div class="sidebar-brand">
+        <div class="brand-icon">
+            <i class="fas fa-truck-moving"></i>
+        </div>
+        <div class="brand-text">Prakruthi Tyres</div>
+        <div class="brand-sub">Fleet Management</div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <!-- Main Section -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Main</div>
+            
+            <div class="nav-item">
+                <a href="/admin/dashboard" class="nav-link <%= currentPage === 'dashboard' ? 'active' : '' %>">
+                    <i class="fas fa-chart-line"></i>
+                    <span>Dashboard</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Fleet Management -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Fleet</div>
+            
+            <div class="nav-item">
+                <a href="/admin/vehicles" class="nav-link <%= currentPage === 'vehicles' ? 'active' : '' %>">
+                    <i class="fas fa-truck"></i>
+                    <span>Vehicles</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/drivers" class="nav-link <%= currentPage === 'drivers' ? 'active' : '' %>">
+                    <i class="fas fa-users"></i>
+                    <span>Drivers</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/trips" class="nav-link <%= currentPage === 'trips' ? 'active' : '' %>">
+                    <i class="fas fa-route"></i>
+                    <span>Trips</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Operations -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Operations</div>
+            
+            <div class="nav-item">
+                <a href="/admin/deliveries" class="nav-link <%= currentPage === 'deliveries' ? 'active' : '' %>">
+                    <i class="fas fa-box"></i>
+                    <span>Deliveries</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/maintenance" class="nav-link <%= currentPage === 'maintenance' ? 'active' : '' %>">
+                    <i class="fas fa-wrench"></i>
+                    <span>Maintenance</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/routes" class="nav-link <%= currentPage === 'routes' ? 'active' : '' %>">
+                    <i class="fas fa-map"></i>
+                    <span>Routes</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- Analytics -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">Analytics</div>
+            
+            <div class="nav-item">
+                <a href="/admin/reports" class="nav-link <%= currentPage === 'reports' ? 'active' : '' %>">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Reports</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/analytics" class="nav-link <%= currentPage === 'analytics' ? 'active' : '' %>">
+                    <i class="fas fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+            </div>
+        </div>
+
+        <!-- System -->
+        <div class="sidebar-section">
+            <div class="sidebar-section-title">System</div>
+            
+            <div class="nav-item">
+                <a href="/admin/settings" class="nav-link <%= currentPage === 'settings' ? 'active' : '' %>">
+                    <i class="fas fa-cog"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/admin/users" class="nav-link <%= currentPage === 'users' ? 'active' : '' %>">
+                    <i class="fas fa-user-shield"></i>
+                    <span>Users</span>
+                </a>
+            </div>
+
+            <div class="nav-item">
+                <a href="/logout" class="nav-link">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+</aside>
+
+<script>
+    // Mobile Menu Toggle
+    const menuToggle = document.getElementById('menuToggle');
+    const sidebar = document.getElementById('sidebar');
+
+    if (menuToggle) {
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('active');
+        });
+
+        // Close sidebar when clicking outside on mobile
+        document.addEventListener('click', (e) => {
+            if (window.innerWidth <= 768) {
+                if (sidebar && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    }
+
+    // Active nav link handler
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            // Allow normal navigation
+            if (window.innerWidth <= 768) {
+                if (sidebar) {
+                    sidebar.classList.remove('active');
+                }
+            }
+        });
+    });
+</script>
