@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Trip Details - Fleet Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: #f5f7fa; font-family: 'Outfit', sans-serif; }
+        .main-content { margin-left: 280px; padding: 30px; }
+        .detail-card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+        .page-header { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+        .field-label { font-weight: 600; color: #444; }
+        .field-value { font-size: 0.95rem; color: #333; }
+        .status-badge { padding: 6px 14px; border-radius: 999px; font-weight: 600; }
+        .status-badge.scheduled, .status-badge.pending { background: rgba(243,156,18,0.16); color: #d68910; }
+        .status-badge.started, .status-badge.ongoing { background: rgba(52,152,219,0.16); color: #2980b9; }
+        .status-badge.completed { background: rgba(46,204,113,0.16); color: #27ae60; }
+        .status-badge.cancelled { background: rgba(231,76,60,0.16); color: #c0392b; }
+    </style>
+</head>
+<body>
+<%- include('../../partials/sidebar.ejs') %>
+<%- include('../../partials/header.ejs') %>
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="page-header">Trip Details</h1>
+            <p class="text-secondary">Review the selected trip and related information.</p>
+        </div>
+        <div>
+            <a href="/admin/trips" class="btn btn-outline-secondary me-2"><i class="fas fa-arrow-left me-2"></i>Back</a>
+            <a href="/admin/trips/edit/<%= trip.trip_id %>" class="btn btn-primary"><i class="fas fa-edit me-2"></i>Edit</a>
+        </div>
+    </div>
+    <div class="detail-card">
+        <div class="row g-4">
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="field-label">Trip Number</div>
+                    <div class="field-value"><%= trip.trip_number || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Vehicle</div>
+                    <div class="field-value"><%= trip.vehicle || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Driver</div>
+                    <div class="field-value"><%= trip.driver || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Status</div>
+                    <div class="field-value">
+                        <% const status = (trip.trip_status || 'scheduled').toLowerCase(); %>
+                        <span class="status-badge <%= status %>"><%= trip.trip_status || 'Pending' %></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="field-label">Route</div>
+                    <div class="field-value"><%= trip.start_location || 'N/A' %> → <%= trip.end_location || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Start Time</div>
+                    <div class="field-value"><%= trip.trip_start_datetime || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Expected End Time</div>
+                    <div class="field-value"><%= trip.expected_end_datetime || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Actual End Time</div>
+                    <div class="field-value"><%= trip.actual_end_datetime || 'N/A' %></div>
+                </div>
+                <div class="mb-3">
+                    <div class="field-label">Distance (km)</div>
+                    <div class="field-value"><%= trip.distance_km != null ? trip.distance_km : 'N/A' %></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Trip - Fleet Management</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        body { background: #f5f7fa; font-family: 'Outfit', sans-serif; }
+        .main-content { margin-left: 280px; padding: 30px; }
+        .form-card { background: #fff; border-radius: 16px; padding: 24px; box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06); }
+        .page-header { font-size: 28px; font-weight: 700; margin-bottom: 16px; }
+        .form-label { font-weight: 600; }
+        .alert-list { margin-bottom: 20px; }
+    </style>
+</head>
+<body>
+<%- include('../../partials/sidebar.ejs') %>
+<%- include('../../partials/header.ejs') %>
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h1 class="page-header">Edit Trip</h1>
+            <p class="text-secondary">Update trip details below.</p>
+        </div>
+        <a href="/admin/trips" class="btn btn-outline-secondary"><i class="fas fa-arrow-left me-2"></i>Back to Trips</a>
+    </div>
+    <div class="form-card">
+        <% if (errors && errors.length) { %>
+            <div class="alert alert-danger alert-list">
+                <ul class="mb-0">
+                    <% errors.forEach((error) => { %>
+                        <li><%= error.msg %></li>
+                    <% }) %>
+                </ul>
+            </div>
+        <% } %>
+        <form method="POST" action="/admin/trips/edit/<%= tripId %>">
+            <div class="row g-3">
+                <div class="col-md-4">
+                    <label class="form-label" for="trip_number">Trip Number</label>
+                    <input type="text" id="trip_number" name="trip_number" value="<%= formData.trip_number || '' %>" class="form-control" readonly>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="vehicle_id">Vehicle</label>
+                    <select id="vehicle_id" name="vehicle_id" class="form-select">
+                        <option value="">Select vehicle</option>
+                        <% vehicles.forEach((vehicle) => { %>
+                            <option value="<%= vehicle.vehicle_id %>" <%= String(formData.vehicle_id) === String(vehicle.vehicle_id) ? 'selected' : '' %>><%= vehicle.vehicle_type || vehicle.vehicle_number %> (<%= vehicle.vehicle_number %>)</option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="driver_id">Driver</label>
+                    <select id="driver_id" name="driver_id" class="form-select">
+                        <option value="">Select driver</option>
+                        <% drivers.forEach((driver) => { %>
+                            <option value="<%= driver.driver_id %>" <%= String(formData.driver_id) === String(driver.driver_id) ? 'selected' : '' %>><%= driver.driver_name %></option>
+                        <% }) %>
+                    </select>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="start_location">Start Location</label>
+                    <input type="text" id="start_location" name="start_location" value="<%= formData.start_location || '' %>" class="form-control" placeholder="Enter start location">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" for="end_location">End Location</label>
+                    <input type="text" id="end_location" name="end_location" value="<%= formData.end_location || '' %>" class="form-control" placeholder="Enter end location">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="trip_start_datetime">Start Time</label>
+                    <input type="datetime-local" id="trip_start_datetime" name="trip_start_datetime" value="<%= formData.trip_start_datetime || '' %>" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="expected_end_datetime">Expected End Time</label>
+                    <input type="datetime-local" id="expected_end_datetime" name="expected_end_datetime" value="<%= formData.expected_end_datetime || '' %>" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="actual_end_datetime">Actual End Time</label>
+                    <input type="datetime-local" id="actual_end_datetime" name="actual_end_datetime" value="<%= formData.actual_end_datetime || '' %>" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="distance_km">Distance (km)</label>
+                    <input type="number" step="0.01" id="distance_km" name="distance_km" value="<%= formData.distance_km || '' %>" class="form-control" placeholder="Enter distance">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" for="trip_status">Status</label>
+                    <select id="trip_status" name="trip_status" class="form-select">
+                        <% statusOptions.forEach((status) => { %>
+                            <option value="<%= status.value %>" <%= formData.trip_status === status.value ? 'selected' : '' %>><%= status.label %></option>
+                        <% }) %>
+                    </select>
+                </div>
+            </div>
+            <div class="mt-4">
+                <button type="submit" class="btn btn-success px-4"><i class="fas fa-save me-2"></i>Update Trip</button>
+            </div>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

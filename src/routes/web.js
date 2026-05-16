@@ -23,6 +23,15 @@ import {
   deleteDriver,
   viewDriver
 } from '../controllers/adminDriversController.js';
+import {
+  listTrips,
+  createTripPage,
+  createTrip,
+  editTripPage,
+  updateTrip,
+  deleteTrip,
+  viewTrip
+} from '../controllers/adminTripsController.js';
 
 const router = express.Router();
 
@@ -61,6 +70,14 @@ router.get('/admin/drivers/view/:id', adminAuth, viewDriver);
 router.get('/admin/drivers/edit/:id', adminAuth, editDriverPage);
 router.post('/admin/drivers/edit/:id', adminAuth, updateDriver);
 router.get('/admin/drivers/delete/:id', adminAuth, deleteDriver);
+
+router.get('/admin/trips', adminAuth, listTrips);
+router.get('/admin/trips/add', adminAuth, createTripPage);
+router.post('/admin/trips/add', adminAuth, createTrip);
+router.get('/admin/trips/view/:id', adminAuth, viewTrip);
+router.get('/admin/trips/edit/:id', adminAuth, editTripPage);
+router.post('/admin/trips/edit/:id', adminAuth, updateTrip);
+router.get('/admin/trips/delete/:id', adminAuth, deleteTrip);
 
 router.get('/check-session', (req, res) => {
 
