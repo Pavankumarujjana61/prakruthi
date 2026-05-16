@@ -42,12 +42,21 @@ const Trip = sequelize.define('Trip', {
 
   advance_taken: {
   type: DataTypes.ENUM('yes', 'no'),
-  allowNull: false
+  allowNull: false,
+  defaultValue: 'no'
+  },
+  
+  advance_amount: {
+    type: DataTypes.INTEGER,
+    validate: {
+      requiredIfAdvanceTaken(value) {
+        if (this.advance_taken === 'yes' && !value) {
+          throw new Error('advance_amount is required when advance_taken is yes');
+        }
+      }
+    }
   },
 
-  advance_amount: {
-    type: DataTypes.STRING
-  },
 
   material_name: {
     type: DataTypes.STRING
