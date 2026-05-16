@@ -41,6 +41,10 @@ export const getTrips = async (req, res) => {
       where.driver_id = driver_id;
     }
 
+     if (supervisor_id) {
+      where.supervisor_id = supervisor_id;
+    }
+
     // Date Filter
     if (start_date && end_date) {
 
