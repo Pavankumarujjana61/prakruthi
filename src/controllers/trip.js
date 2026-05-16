@@ -291,7 +291,8 @@ export const createTrip = async (req, res) => {
       // trip_amount,
       remarks,
       advance_taken,
-      advance_amount
+      advance_amount,
+      start_odometer
     } = req.body;
 
     const tripCount = await Trip.count();
@@ -314,7 +315,8 @@ export const createTrip = async (req, res) => {
       // trip_amount,
       remarks,
       advance_taken,
-      advance_amount
+      advance_amount,
+      start_odometer
     });
 
     return res.status(201).json({
