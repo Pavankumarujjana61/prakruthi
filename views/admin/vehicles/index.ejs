@@ -1,0 +1,25 @@
+<table class="table">
+
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Vehicle</th>
+      <th>Number</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+  <% vehicles.forEach(vehicle => { %>
+
+    <tr>
+      <td><%= vehicle.vehicle_id %></td>
+      <td><%= vehicle.vehicle_name %></td>
+      <td><%= vehicle.vehicle_number %></td>
+    </tr>
+
+  <% }) %>
+
+  </tbody>
+
+</table>

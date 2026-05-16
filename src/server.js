@@ -9,6 +9,7 @@ import connectDB from './config/database.js';
 import logger from './utils/logger.js';
 import errorHandler from './middleware/errorHandler.js';
 import notFound from './middleware/notFound.js';
+import session from 'express-session';
 
 // Import routes
 import authRoutes from './routes/auth.js';
@@ -70,6 +71,20 @@ app.use(compression());
 // Body parsing middleware
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+
+app.use(session({
+
+  secret: 'prakruthi_secret_key',
+
+  resave: false,
+
+  saveUninitialized: false,
+
+  cookie: {
+    secure: false
+  }
+
+}));
 
 // Logging middleware
 app.use((req, res, next) => {

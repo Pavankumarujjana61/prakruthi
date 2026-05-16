@@ -36,15 +36,15 @@ const VehicleDieselTankCleaningLog = sequelize.define(
       allowNull: true
     },
 
-    next_cleaning_date: {
-      type: DataTypes.DATEONLY,
-      allowNull: true
-    },
+    // next_cleaning_date: {
+    //   type: DataTypes.DATEONLY,
+    //   allowNull: true
+    // },
 
-    next_cleaning_km: {
-      type: DataTypes.INTEGER,
-      allowNull: true
-    },
+    // next_cleaning_km: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: true
+    // },
 
     remarks: {
       type: DataTypes.TEXT,

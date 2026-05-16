@@ -484,63 +484,94 @@
             </div>
 
             <!-- Login Form -->
-            <form id="loginForm" onsubmit="handleLogin(event)">
-                <!-- Email Field -->
-                <div class="form-group">
-                    <label for="email" class="form-label">Email Address</label>
-                    <input 
-                        type="email" 
-                        class="form-control" 
-                        id="email"
-                        placeholder="admin@prakruthi-tyres.com"
-                        required
-                    >
-                    <!-- <div class="invalid-feedback">Please enter a valid email address</div> -->
-                </div>
+          <!-- Login Form -->
+<form 
+    id="loginForm"
+    method="POST"
+    action="/admin/login"
+>
 
-                <!-- Password Field -->
-                <div class="form-group">
-                    <label for="password" class="form-label">Password</label>
-                    <div class="password-toggle-container">
-                        <input 
-                            type="password" 
-                            class="form-control" 
-                            id="password"
-                            placeholder="••••••••••"
-                            required
-                        >
-                        <button 
-                            type="button" 
-                            class="password-toggle"
-                            id="togglePassword"
-                            onclick="togglePasswordVisibility()"
-                        >
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                    <!-- <div class="invalid-feedback">Password is required</div> -->
-                </div>
+    <!-- Email Field -->
+    <div class="form-group">
 
-                <!-- Remember Me & Forgot Password -->
-                <div class="form-footer">
-                    <div class="form-check">
-                        <input 
-                            type="checkbox" 
-                            class="form-check-input" 
-                            id="rememberMe"
-                        >
-                        <label class="form-check-label" for="rememberMe">
-                            Remember me
-                        </label>
-                    </div>
-                    <a href="#" class="forgot-password">Forgot Password?</a>
-                </div>
+        <label for="email" class="form-label">
+            Email Address
+        </label>
 
-                <!-- Login Button -->
-                <button type="submit" class="btn-login" id="loginBtn">
-                    Sign In to Dashboard
-                </button>
-            </form>
+        <input 
+            type="email"
+            name="email"
+            class="form-control"
+            id="email"
+            placeholder="admin@prakruthi-tyres.com"
+            required
+        >
+
+    </div>
+
+    <!-- Password Field -->
+    <div class="form-group">
+
+        <label for="password" class="form-label">
+            Password
+        </label>
+
+        <div class="password-toggle-container">
+
+            <input 
+                type="password"
+                name="password"
+                class="form-control"
+                id="password"
+                placeholder="••••••••••"
+                required
+            >
+
+            <button 
+                type="button"
+                class="password-toggle"
+                id="togglePassword"
+                onclick="togglePasswordVisibility()"
+            >
+                <i class="fas fa-eye"></i>
+            </button>
+
+        </div>
+
+    </div>
+
+    <!-- Remember Me -->
+    <div class="form-footer">
+
+        <div class="form-check">
+
+            <input 
+                type="checkbox"
+                class="form-check-input"
+                id="rememberMe"
+            >
+
+            <label 
+                class="form-check-label"
+                for="rememberMe"
+            >
+                Remember me
+            </label>
+
+        </div>
+
+    </div>
+
+    <!-- Login Button -->
+    <button 
+        type="submit"
+        class="btn-login"
+        id="loginBtn"
+    >
+        Sign In to Dashboard
+    </button>
+
+</form>
 
             <!-- Sign Up Section -->
             <div class="signup-section">
