@@ -63,7 +63,8 @@ router.get('/admin/vehicles', async (req, res) => {
           admin_id: req.session.admin_id,
           name: req.session.admin_name
         },
-        vehicles
+        vehicles,
+        currentPage: 'vehicles'
       }
     );
 
