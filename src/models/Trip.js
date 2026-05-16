@@ -36,7 +36,16 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.STRING
   },
 
-  customer_name: {
+  // customer_name: {
+  //   type: DataTypes.STRING
+  // },
+
+  advance_taken: {
+  type: DataTypes.ENUM('yes', 'no'),
+  allowNull: false
+  },
+
+  advance_amount: {
     type: DataTypes.STRING
   },
 
@@ -44,30 +53,31 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.STRING
   },
 
-  load_weight: {
-    type: DataTypes.DECIMAL(10,2)
-  },
+  // load_weight: {
+  //   type: DataTypes.DECIMAL(10,2)
+  // },
 
   trip_start_datetime: {
     type: DataTypes.DATE
   },
 
-  expected_end_datetime: {
-    type: DataTypes.DATE
-  },
+  // expected_end_datetime: {
+  //   type: DataTypes.DATE
+  // },
 
   actual_end_datetime: {
     type: DataTypes.DATE
   },
 
-  distance_km: {
-    type: DataTypes.DECIMAL(10,2)
-  },
+  // distance_km: {
+  //   type: DataTypes.DECIMAL(10,2)
+  // },
 
  fuel_consumed: {
   type: DataTypes.DECIMAL(10,2),
   defaultValue: 0
   },
+
   mileage: {
     type: DataTypes.DECIMAL(10,2),
     defaultValue: 0
@@ -83,10 +93,10 @@ const Trip = sequelize.define('Trip', {
   //   defaultValue: 0
   // },
 
-  trip_amount: {
-    type: DataTypes.DECIMAL(12,2),
-    defaultValue: 0
-  },
+  // trip_amount: {
+  //   type: DataTypes.DECIMAL(12,2),
+  //   defaultValue: 0
+  // },
 
   trip_status: {
     type: DataTypes.ENUM(
