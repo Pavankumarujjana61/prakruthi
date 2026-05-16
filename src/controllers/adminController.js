@@ -63,20 +63,39 @@ export const login = async (
 
 };
 
-export const dashboard = (
-  req,
-  res
-) => {
+export const dashboard = async (req, res) => {
+  try {
+    const dashboardData = {
+      admin_name: req.session?.admin_name || 'Admin',
 
+      totalVehicles: (await Vehicle.count()) || 0,
+      totalDrivers: (await Driver.count()) || 0,
 
-  res.render(
-    'admin/dashboard',
-    {
-      admin_name: req.session.admin_name,
-      currentPage: 'dashboard'
-    }
-  );
+      activeRoutes: await Route.count({
+        where: { status: 'active' }
+      }) || 0,
 
+      pendingDeliveries: await Delivery.count({
+        where: { status: 'pending' }
+      }) || 0,
+
+      recentDeliveries: []
+    };
+
+    res.render('admin/dashboard', dashboardData);
+
+  } catch (error) {
+    console.error('Dashboard Error:', error);
+
+    return res.status(500).render('admin/dashboard', {
+      admin_name: req.session?.admin_name || 'Admin',
+      totalVehicles: 0,
+      totalDrivers: 0,
+      activeRoutes: 0,
+      pendingDeliveries: 0,
+      recentDeliveries: []
+    });
+  }
 };
 
 export const logout = (
