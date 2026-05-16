@@ -1,7 +1,6 @@
 import express from 'express';
-
-const router = express.Router();
-
+import Vehicle from '../models/Vehicle.js';
+import adminAuth from '../middleware/adminAuth.js';
 import {
 
   loginPage,
@@ -14,8 +13,8 @@ import {
 
 } from '../controllers/adminController.js';
 
-import adminAuth
-from '../middleware/adminAuth.js';
+const router = express.Router();
+
 
 router.get(
   '/admin',
@@ -37,5 +36,41 @@ router.get(
   '/admin/logout',
   logout
 );
+
+router.get('/admin/vehicles', async (req, res) => {
+
+  if (!req.session.admin) {
+
+    return res.redirect('/admin');
+
+  }
+
+  try {
+
+    const vehicles = await Vehicle.findAll({
+
+      order: [
+        ['vehicle_id', 'DESC']
+      ]
+
+    });
+
+    res.render(
+      'admin/vehicles/index',
+      {
+        admin: req.session.admin,
+        vehicles
+      }
+    );
+
+  } catch (error) {
+
+    console.log(error);
+
+    res.send('Vehicle Fetch Error');
+
+  }
+
+});
 
 export default router;
