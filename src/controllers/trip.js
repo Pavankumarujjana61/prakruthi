@@ -283,22 +283,31 @@ export const createTrip = async (req, res) => {
       supervisor_id,
       start_location,
       end_location,
-      // customer_name,
       material_name,
       load_weight,
-      // expected_end_datetime,
-      // distance_km,
-      // trip_amount,
       remarks,
       advance_taken,
       advance_amount,
       start_odometer
     } = req.body;
 
-    const tripCount = await Trip.count();
+    // Get latest trip
+    const lastTrip = await Trip.findOne({
+      order: [['trip_id', 'DESC']]
+    });
+
+    let nextNumber = 1;
+
+    if (lastTrip && lastTrip.trip_number) {
+
+      const lastNumber =
+        parseInt(lastTrip.trip_number.replace('TRIP', ''));
+
+      nextNumber = lastNumber + 1;
+    }
 
     const trip_number =
-      `TRIP${String(tripCount + 1).padStart(5, '0')}`;
+      `TRIP${String(nextNumber).padStart(5, '0')}`;
 
     const trip = await Trip.create({
       trip_number,
@@ -307,12 +316,8 @@ export const createTrip = async (req, res) => {
       supervisor_id,
       start_location,
       end_location,
-      // customer_name,
       material_name,
       load_weight,
-      // expected_end_datetime,
-      // distance_km,
-      // trip_amount,
       remarks,
       advance_taken,
       advance_amount,
@@ -327,17 +332,15 @@ export const createTrip = async (req, res) => {
 
   } catch (error) {
 
-  console.log(error);
+    console.log(error);
 
-  return res.status(500).json({
-    success: false,
-    message: error.message,
-    error
-  });
+    return res.status(500).json({
+      success: false,
+      message: error.message,
+      error
+    });
 
-}
-
-  
+  }
 
 };
 
