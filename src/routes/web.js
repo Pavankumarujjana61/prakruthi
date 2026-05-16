@@ -73,4 +73,10 @@ router.get('/admin/vehicles', async (req, res) => {
 
 });
 
+router.get('/check-session', (req, res) => {
+
+  res.json(req.session);
+
+});
+
 export default router;
