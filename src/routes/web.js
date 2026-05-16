@@ -1,20 +1,21 @@
 import express from 'express';
-import Vehicle from '../models/Vehicle.js';
 import adminAuth from '../middleware/adminAuth.js';
 import {
-
   loginPage,
-
   login,
-
   dashboard,
-
   logout
-
 } from '../controllers/adminController.js';
+import {
+  listVehicles,
+  addVehiclePage,
+  createVehicle,
+  editVehiclePage,
+  updateVehicle,
+  deleteVehicle
+} from '../controllers/adminVehiclesController.js';
 
 const router = express.Router();
-
 
 router.get(
   '/admin',
@@ -37,46 +38,12 @@ router.get(
   logout
 );
 
-router.get('/admin/vehicles', async (req, res) => {
-
-  // CHECK SESSION PROPERLY
-  if (!req.session.admin_id) {
-
-    return res.redirect('/admin');
-
-  }
-
-  try {
-
-    const vehicles = await Vehicle.findAll({
-
-      order: [
-        ['vehicle_id', 'DESC']
-      ]
-
-    });
-
-    res.render(
-      'admin/vehicles/index',
-      {
-        admin: {
-          admin_id: req.session.admin_id,
-          name: req.session.admin_name
-        },
-        vehicles,
-        currentPage: 'vehicles'
-      }
-    );
-
-  } catch (error) {
-
-    console.log(error);
-
-    res.send('Vehicle Fetch Error');
-
-  }
-
-});
+router.get('/admin/vehicles', adminAuth, listVehicles);
+router.get('/admin/vehicles/add', adminAuth, addVehiclePage);
+router.post('/admin/vehicles/add', adminAuth, createVehicle);
+router.get('/admin/vehicles/edit/:id', adminAuth, editVehiclePage);
+router.post('/admin/vehicles/edit/:id', adminAuth, updateVehicle);
+router.get('/admin/vehicles/delete/:id', adminAuth, deleteVehicle);
 
 router.get('/check-session', (req, res) => {
 
