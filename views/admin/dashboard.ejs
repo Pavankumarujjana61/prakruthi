@@ -426,8 +426,10 @@
     <main class="main-content">
         <!-- Page Header -->
         <div class="page-header">
-            <h1 class="page-title">Welcome Back, <%= user?.firstName || 'Admin' %></h1>
-            <p class="page-description">Track your entire fleet performance and manage logistics efficiently</p>
+        <h1 class="page-title">
+        Welcome Back, <%= admin_name || 'Admin' %>
+        </h1>
+        <p class="page-description">Track your entire fleet performance and manage logistics efficiently</p>
         </div>
 
         <!-- Stats Cards Row 1 -->
