@@ -130,6 +130,17 @@ return_km: {
       'cancelled'
     ),
     defaultValue: 'scheduled'
+  },
+
+  trip_progress: {
+    type: DataTypes.ENUM(
+      'not_started',
+      'pickup',
+      'in_transit',
+      'delivered',
+      'returned'
+    ),
+    defaultValue: 'not_started'
   }
 
 }, {

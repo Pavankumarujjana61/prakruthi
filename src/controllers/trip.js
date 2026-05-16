@@ -377,7 +377,9 @@ export const startTrip = async (req, res) => {
     await trip.update({
       trip_status: 'started',
       trip_progress: 'in_transit',
-      trip_start_datetime: new Date()
+      trip_start_datetime: new Date(),
+      current_location: trip.start_location
+
     });
 
     // Add Timeline Entry
