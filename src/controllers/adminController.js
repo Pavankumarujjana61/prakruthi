@@ -47,9 +47,11 @@ export const login = async (
     req.session.admin_name =
       admin.name;
 
-    res.redirect(
-      '/admin/dashboard'
-    );
+    req.session.save(() => {
+
+  res.redirect('/admin/dashboard');
+
+    });
 
   } catch (error) {
 
