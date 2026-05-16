@@ -39,11 +39,11 @@ router.get(
 
 router.get('/admin/vehicles', async (req, res) => {
 
-  if (!req.session.admin) {
+  // if (!req.session.admin) {
 
-    return res.redirect('/admin');
+  //   return res.redirect('/admin');
 
-  }
+  // }
 
   try {
 
