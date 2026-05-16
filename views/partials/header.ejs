@@ -238,9 +238,13 @@
             <i class="fas fa-bars"></i>
         </button>
         <div class="breadcrumb-nav">
-            <span class="breadcrumb-item"><%= breadcrumbFirst || 'Dashboard' %></span>
+            <span class="breadcrumb-item"><%= typeof breadcrumbFirst !== 'undefined'
+? breadcrumbFirst
+: 'Dashboard' %></span>
             <span style="color: var(--text-light);">/</span>
-            <span class="breadcrumb-item active"><%= breadcrumbSecond || 'Overview' %></span>
+            <span class="breadcrumb-item active"><%= typeof breadcrumbSecond !== 'undefined'
+? breadcrumbSecond
+: 'Overview' %></span>
         </div>
     </div>
 
