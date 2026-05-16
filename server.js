@@ -18,6 +18,13 @@ import tripRoutes from './routes/trips.js';
 import maintenanceRoutes from './routes/maintenance.js';
 import alertRoutes from './routes/alerts.js';
 import supervisorRoutes from './routes/supervisors.js';
+import path from 'path';
+import { fileURLToPath } from 'url';
+import webRoutes from './routes/web.js';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 
 // Load environment variables
 dotenv.config();
@@ -33,7 +40,12 @@ app.use(cors({
   origin: process.env.FRONTEND_URL || 'http://localhost:3000',
   credentials: true
 }));
+app.set('view engine', 'ejs');
 
+app.set(
+  'views',
+  path.join(__dirname, '../views')
+);
 // Rate limiting
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
@@ -78,6 +90,7 @@ app.use('/api/trips', tripRoutes);
 app.use('/api/maintenance', maintenanceRoutes);
 app.use('/api/alerts', alertRoutes);
 app.use('/api/supervisors', supervisorRoutes);
+app.use('/', webRoutes);
 
 // Swagger documentation
 if (process.env.NODE_ENV === 'development') {

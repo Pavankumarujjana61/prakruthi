@@ -51,6 +51,10 @@ from './VehicleAlignmentLog.js';
 
 import VehicleRadiatorWaterLog
 from './VehicleRadiatorWaterLog.js';
+
+import VehicleDieselTankCleaningLog
+from './VehicleDieselTankCleaningLog.js';
+
 // ======================================
 // Supervisor Vehicle Assignment
 // ======================================
@@ -196,7 +200,9 @@ const vehicleLogModels = [
 
   VehicleAlignmentLog,
 
-  VehicleRadiatorWaterLog
+  VehicleRadiatorWaterLog,
+
+  VehicleDieselTankCleaningLog
 
 ];
 
@@ -284,6 +290,8 @@ export {
 
   VehicleAlignmentLog,
 
-  VehicleRadiatorWaterLog
+  VehicleRadiatorWaterLog,
+
+  VehicleDieselTankCleaningLog
 
 };

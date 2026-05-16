@@ -22,6 +22,16 @@ import supervisorRoutes from './routes/supervisors.js';
 import supervisorAssignmentRoutes from './routes/supervisorAssignments.js';
 import driverAttendanceRoutes from './routes/DriverAttendance.js';
 import logRegistryRoutes from './routes/logRegistry.js';
+import webRoutes from './routes/web.js';
+
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename =
+  fileURLToPath(import.meta.url);
+
+const __dirname =
+  path.dirname(__filename);
 
 // Load environment variables
 dotenv.config();
@@ -38,6 +48,12 @@ app.use(cors({
   credentials: true
 }));
 
+app.set('view engine', 'ejs');
+
+app.set(
+  'views',
+  path.join(__dirname, '../views')
+);
 // Rate limiting
 const limiter = rateLimit({
   windowMs: parseInt(process.env.RATE_LIMIT_WINDOW_MS) || 15 * 60 * 1000, // 15 minutes
@@ -85,6 +101,8 @@ app.use('/api/supervisors', supervisorRoutes);
 app.use('/api/supervisor-assignments',supervisorAssignmentRoutes);
 app.use('/api/driver-attendance', driverAttendanceRoutes);
 app.use('/api/vehicles', logRegistryRoutes);
+app.use('/', webRoutes);
+
 // Swagger documentation
 if (process.env.NODE_ENV === 'development') {
   Promise.all([
