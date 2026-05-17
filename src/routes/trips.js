@@ -13,10 +13,10 @@ import {
 } from '../controllers/trip.js';
 
 
-import uploadVoice from '../middlewares/uploadVoice.js';
+import uploadVoice from '../middleware/uploadVoice.js';
 import {
   uploadTripVoiceNote
-} from '../controllers/tripController.js';
+} from '../controllers/trip.js';
 
 
 const router = express.Router();

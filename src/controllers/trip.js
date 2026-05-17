@@ -7,7 +7,7 @@ import FuelLog from '../models/FuelLog.js';
 import Expense from '../models/Expense.js';
 import TripTimeline from '../models/TripTimeline.js';
 import Supervisor from '../models/Supervisor.js';
-
+import uploadVoice from '../middleware/uploadVoice.js';
 
 // ==========================================
 // GET ALL TRIPS

@@ -2,51 +2,38 @@ import multer from 'multer';
 import path from 'path';
 import fs from 'fs';
 
-const uploadPath = 'uploads/trip-voice-notes';
+const uploadDir = 'uploads/voice-notes';
 
-if (!fs.existsSync(uploadPath)) {
-  fs.mkdirSync(uploadPath, {
+if (!fs.existsSync(uploadDir)) {
+
+  fs.mkdirSync(uploadDir, {
     recursive: true
   });
+
 }
 
 const storage = multer.diskStorage({
 
   destination: (req, file, cb) => {
-    cb(null, uploadPath);
+
+    cb(null, uploadDir);
+
   },
 
   filename: (req, file, cb) => {
 
-    const fileName =
-      `trip_${Date.now()}${path.extname(file.originalname)}`;
+    const uniqueName =
+      Date.now() +
+      path.extname(file.originalname);
 
-    cb(null, fileName);
+    cb(null, uniqueName);
+
   }
 
 });
 
-const fileFilter = (req, file, cb) => {
-
-  const allowedTypes = [
-    'audio/mpeg',
-    'audio/mp3',
-    'audio/wav',
-    'audio/x-m4a',
-    'audio/mp4'
-  ];
-
-  if (allowedTypes.includes(file.mimetype)) {
-    cb(null, true);
-  } else {
-    cb(new Error('Only audio files allowed'));
-  }
-
-};
-
 const uploadVoice = multer({
-  storage,
-  fileFilter
+  storage
 });
 
 export default uploadVoice;
