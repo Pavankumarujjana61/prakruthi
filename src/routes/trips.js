@@ -9,7 +9,8 @@ import {
   dropTrip,
   addTimeline,
   getDashboardSummary,
-  getCompletedTrips
+  getCompletedTrips,
+  getTripVoiceNote
 } from '../controllers/trip.js';
 
 
