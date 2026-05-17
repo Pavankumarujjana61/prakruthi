@@ -45,4 +45,9 @@ router.put(
   uploadTripVoiceNote
 );
 
+router.get(
+  '/:id/voice-note',
+  getTripVoiceNote
+);
+
 export default router;

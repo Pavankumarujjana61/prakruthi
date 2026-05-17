@@ -1018,3 +1018,59 @@ export const uploadTripVoiceNote = async (req, res) => {
   }
 
 };
+
+// ==========================================
+// GET TRIP VOICE NOTE
+// ==========================================
+
+export const getTripVoiceNote = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const trip = await Trip.findByPk(id, {
+
+      attributes: [
+        'trip_id',
+        'trip_number',
+        'voice_note'
+      ]
+
+    });
+
+    if (!trip) {
+
+      return res.status(404).json({
+
+        success: false,
+
+        message: 'Trip not found'
+
+      });
+
+    }
+
+    return res.status(200).json({
+
+      success: true,
+
+      data: trip
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+
+      success: false,
+
+      message: error.message
+
+    });
+
+  }
+
+};
