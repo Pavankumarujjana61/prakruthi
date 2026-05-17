@@ -36,50 +36,61 @@ const Trip = sequelize.define('Trip', {
     type: DataTypes.STRING
   },
 
-  // customer_name: {
-  //   type: DataTypes.STRING
-  // },
+  customer_name: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
 
   advance_taken: {
-  type: DataTypes.ENUM('yes', 'no'),
-  allowNull: false
+    type: DataTypes.ENUM('yes', 'no'),
+    allowNull: false,
+    defaultValue: 'no'
   },
 
   advance_amount: {
-    type: DataTypes.STRING
+    type: DataTypes.DECIMAL(12,2),
+    allowNull: true,
+    defaultValue: 0
   },
 
   material_name: {
-    type: DataTypes.STRING
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+
+  load_weight: {
+    type: DataTypes.DECIMAL(10,2),
+    allowNull: true
   },
 
   start_odometer: {
-    type: DataTypes.DECIMAL(10,2)
+    type: DataTypes.DECIMAL(10,2),
+    allowNull: true
   },
-
-  // load_weight: {
-  //   type: DataTypes.DECIMAL(10,2)
-  // },
 
   trip_start_datetime: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: true
   },
 
-  // expected_end_datetime: {
-  //   type: DataTypes.DATE
-  // },
+  expected_end_datetime: {
+    type: DataTypes.DATE,
+    allowNull: true
+  },
 
   actual_end_datetime: {
-    type: DataTypes.DATE
+    type: DataTypes.DATE,
+    allowNull: true
   },
 
-  // distance_km: {
-  //   type: DataTypes.DECIMAL(10,2)
-  // },
+  distance_km: {
+    type: DataTypes.DECIMAL(10,2),
+    allowNull: true
+  },
 
- fuel_consumed: {
-  type: DataTypes.DECIMAL(10,2),
-  defaultValue: 0
+  fuel_consumed: {
+    type: DataTypes.DECIMAL(10,2),
+    defaultValue: 0
   },
 
   mileage: {
@@ -92,15 +103,15 @@ const Trip = sequelize.define('Trip', {
     defaultValue: 0
   },
 
-  // trip_profit: {
-  //   type: DataTypes.DECIMAL(12,2),
-  //   defaultValue: 0
-  // },
+  trip_profit: {
+    type: DataTypes.DECIMAL(12,2),
+    defaultValue: 0
+  },
 
-  // trip_amount: {
-  //   type: DataTypes.DECIMAL(12,2),
-  //   defaultValue: 0
-  // },
+  trip_amount: {
+    type: DataTypes.DECIMAL(12,2),
+    defaultValue: 0
+  },
 
   drop_datetime: {
   type: DataTypes.DATE,
@@ -122,10 +133,26 @@ return_km: {
   defaultValue: 0
 },
 
+  end_odometer: {
+    type: DataTypes.DECIMAL(10,2),
+    allowNull: true
+  },
+
+  current_location: {
+    type: DataTypes.STRING,
+    allowNull: true
+  },
+
+  remarks: {
+    type: DataTypes.TEXT,
+    allowNull: true
+  },
+
   trip_status: {
     type: DataTypes.ENUM(
       'scheduled',
       'started',
+      'dropped',
       'completed',
       'cancelled'
     ),

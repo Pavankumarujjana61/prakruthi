@@ -344,6 +344,76 @@ export const createTrip = async (req, res) => {
 
 };
 
+export const updateTrip = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const trip = await Trip.findByPk(id);
+
+    if (!trip) {
+      return res.status(404).json({
+        success: false,
+        message: 'Trip not found'
+      });
+    }
+
+    const {
+      vehicle_id,
+      driver_id,
+      supervisor_id,
+      start_location,
+      end_location,
+      customer_name,
+      material_name,
+      load_weight,
+      remarks,
+      advance_taken,
+      advance_amount,
+      start_odometer,
+      expected_end_datetime,
+      end_odometer,
+      drop_odometer,
+      distance_km,
+      trip_amount,
+      payment_status,
+      current_location
+    } = req.body;
+
+    await trip.update({
+      vehicle_id: vehicle_id ?? trip.vehicle_id,
+      driver_id: driver_id ?? trip.driver_id,
+      supervisor_id: supervisor_id ?? trip.supervisor_id,
+      start_location: start_location ?? trip.start_location,
+      end_location: end_location ?? trip.end_location,
+      customer_name: customer_name ?? trip.customer_name,
+      material_name: material_name ?? trip.material_name,
+      load_weight: load_weight ?? trip.load_weight,
+      remarks: remarks ?? trip.remarks,
+      advance_taken: advance_taken ?? trip.advance_taken,
+      advance_amount: advance_amount ?? trip.advance_amount,
+      start_odometer: start_odometer ?? trip.start_odometer,
+      expected_end_datetime: expected_end_datetime ?? trip.expected_end_datetime,
+      end_odometer: end_odometer ?? trip.end_odometer,
+      drop_odometer: drop_odometer ?? trip.drop_odometer,
+      distance_km: distance_km ?? trip.distance_km,
+      trip_amount: trip_amount ?? trip.trip_amount,
+      payment_status: payment_status ?? trip.payment_status,
+      current_location: current_location ?? trip.current_location
+    });
+
+    return res.status(200).json({
+      success: true,
+      message: 'Trip updated successfully',
+      data: trip
+    });
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({
+      success: false,
+      message: error.message
+    });
+  }
+};
+
 
 // ==========================================
 // START TRIP

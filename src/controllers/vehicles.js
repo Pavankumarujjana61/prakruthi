@@ -1,10 +1,7 @@
-import { Op } from 'sequelize';
+import { Op, fn, col } from 'sequelize';
 import { validationResult } from 'express-validator';
-import mongoose from 'mongoose';
 import Vehicle from '../models/Vehicle.js';
 import logger from '../utils/logger.js';
-import { buildSearchQuery, getPagination } from '../services/queryService.js';
-import { mockVehicles } from '../utils/mockData.js';
 import Driver from '../models/Driver.js';
 import Trip from '../models/Trip.js';
 
@@ -274,29 +271,48 @@ export const getVehicles = async (req, res) => {
 };
 
 export const getVehicle = async (req, res) => {
-
   try {
-
-    const vehicle =
-      await Vehicle.findByPk(req.params.id);
+    const vehicle = await Vehicle.findByPk(req.params.id);
 
     if (!vehicle) {
-
       return res.status(404).json({
         success: false,
         error: 'Vehicle not found'
       });
     }
 
-    return res.status(200).json({
-      success: true,
-      data: vehicle
+    const activeTrip = await Trip.findOne({
+      where: {
+        vehicle_id: vehicle.vehicle_id,
+        trip_status: {
+          [Op.notIn]: ['completed', 'cancelled']
+        }
+      },
+      order: [['trip_id', 'DESC']]
     });
 
+    let currentDriver = null;
+    if (activeTrip?.driver_id) {
+      const driver = await Driver.findByPk(activeTrip.driver_id);
+      if (driver) {
+        currentDriver = {
+          driver_id: driver.driver_id,
+          driver_name: driver.driver_name,
+          phone_number: driver.phone_number
+        };
+      }
+    }
+
+    return res.status(200).json({
+      success: true,
+      data: {
+        vehicle,
+        activeTrip,
+        currentDriver
+      }
+    });
   } catch (error) {
-
-    console.error(error);
-
+    logger.error('Get vehicle error:', error);
     return res.status(500).json({
       success: false,
       error: error.message
@@ -318,10 +334,20 @@ export const createVehicle = async (req, res) => {
       });
     }
 
-    // Add user to req.body
-    req.body.createdBy = req.user?.id || 1; // req.user.id;
+    const payload = {
+      vehicle_number: String(req.body.vehicle_number || '').trim(),
+      vehicle_type: String(req.body.vehicle_type || '').trim(),
+      brand: String(req.body.brand || '').trim(),
+      model: String(req.body.model || '').trim(),
+      manufacture_year: req.body.manufacture_year ? Number(req.body.manufacture_year) : null,
+      fuel_type: String(req.body.fuel_type || '').trim(),
+      mileage: req.body.mileage ? Number(req.body.mileage) : 0,
+      load_capacity: req.body.load_capacity ? Number(req.body.load_capacity) : null,
+      tyre_count: req.body.tyre_count ? Number(req.body.tyre_count) : null,
+      current_status: req.body.current_status ? String(req.body.current_status).trim().toLowerCase() : 'active'
+    };
 
-    const vehicle = await Vehicle.create(req.body);
+    const vehicle = await Vehicle.create(payload);
 
     res.status(201).json({
       success: true,
@@ -329,7 +355,7 @@ export const createVehicle = async (req, res) => {
     });
   } catch (error) {
     logger.error('Create vehicle error:', error);
-    if (error.code === 11000) {
+    if (error.name === 'SequelizeUniqueConstraintError') {
       return res.status(400).json({
         success: false,
         error: 'Vehicle number already exists'
@@ -356,21 +382,28 @@ export const updateVehicle = async (req, res) => {
       });
     }
 
-    const vehicle = await Vehicle.findByIdAndUpdate(
-      req.params.id,
-      req.body,
-      {
-        new: true,
-        runValidators: true
-      }
-    );
-
+    const vehicle = await Vehicle.findByPk(req.params.id);
     if (!vehicle) {
       return res.status(404).json({
         success: false,
         error: 'Vehicle not found'
       });
     }
+
+    const updateData = {
+      vehicle_number: req.body.vehicle_number ? String(req.body.vehicle_number).trim() : vehicle.vehicle_number,
+      vehicle_type: req.body.vehicle_type ? String(req.body.vehicle_type).trim() : vehicle.vehicle_type,
+      brand: req.body.brand ? String(req.body.brand).trim() : vehicle.brand,
+      model: req.body.model ? String(req.body.model).trim() : vehicle.model,
+      manufacture_year: typeof req.body.manufacture_year !== 'undefined' ? Number(req.body.manufacture_year) : vehicle.manufacture_year,
+      fuel_type: req.body.fuel_type ? String(req.body.fuel_type).trim() : vehicle.fuel_type,
+      mileage: typeof req.body.mileage !== 'undefined' ? Number(req.body.mileage) : vehicle.mileage,
+      load_capacity: typeof req.body.load_capacity !== 'undefined' ? Number(req.body.load_capacity) : vehicle.load_capacity,
+      tyre_count: typeof req.body.tyre_count !== 'undefined' ? Number(req.body.tyre_count) : vehicle.tyre_count,
+      current_status: req.body.current_status ? String(req.body.current_status).trim().toLowerCase() : vehicle.current_status
+    };
+
+    await vehicle.update(updateData);
 
     res.json({
       success: true,
@@ -390,7 +423,7 @@ export const updateVehicle = async (req, res) => {
 // @access  Private (Admin only)
 export const deleteVehicle = async (req, res) => {
   try {
-    const vehicle = await Vehicle.findById(req.params.id);
+    const vehicle = await Vehicle.findByPk(req.params.id);
 
     if (!vehicle) {
       return res.status(404).json({
@@ -399,20 +432,23 @@ export const deleteVehicle = async (req, res) => {
       });
     }
 
-    // Check if vehicle has active trips
-    const activeTrip = await mongoose.model('Trip').findOne({
-      vehicle: req.params.id,
-      status: { $in: ['In Progress', 'Loading Done', 'Unloading Done'] }
+    const activeTrip = await Trip.findOne({
+      where: {
+        vehicle_id: vehicle.vehicle_id,
+        trip_status: {
+          [Op.notIn]: ['completed', 'cancelled']
+        }
+      }
     });
 
     if (activeTrip) {
       return res.status(400).json({
         success: false,
-        error: 'Cannot delete vehicle with active trips'
+        error: 'Cannot delete vehicle with active or pending trips'
       });
     }
 
-    await vehicle.deleteOne();
+    await vehicle.destroy();
 
     res.json({
       success: true,

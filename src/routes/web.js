@@ -32,6 +32,10 @@ import {
   deleteTrip,
   viewTrip
 } from '../controllers/adminTripsController.js';
+import {
+  listVehicleLogs,
+  getVehicleLogDetails
+} from '../controllers/adminVehicleLogsController.js';
 
 const router = express.Router();
 
@@ -78,6 +82,9 @@ router.get('/admin/trips/view/:id', adminAuth, viewTrip);
 router.get('/admin/trips/edit/:id', adminAuth, editTripPage);
 router.post('/admin/trips/edit/:id', adminAuth, updateTrip);
 router.get('/admin/trips/delete/:id', adminAuth, deleteTrip);
+
+router.get('/admin/vehicle-logs', adminAuth, listVehicleLogs);
+router.get('/admin/vehicle-logs/:type/:id', adminAuth, getVehicleLogDetails);
 
 router.get('/check-session', (req, res) => {
 

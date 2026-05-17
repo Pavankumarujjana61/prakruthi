@@ -4,21 +4,20 @@ import {
   getTrips,
   getTripDetails,
   createTrip,
+  updateTrip,
   startTrip,
   completeTrip,
   dropTrip,
   addTimeline,
   getDashboardSummary,
   getCompletedTrips,
-  getTripVoiceNote
-} from '../controllers/trip.js';
-
-
-import uploadVoice from '../middleware/uploadVoice.js';
-import {
+  getTripVoiceNote,
+  deleteTrip,
   uploadTripVoiceNote
 } from '../controllers/trip.js';
 
+import uploadVoice from '../middleware/uploadVoice.js';
+import { createTripValidation, updateTripValidation } from '../validations/index.js';
 
 const router = express.Router();
 
@@ -30,13 +29,17 @@ router.get('/completed/list', getCompletedTrips);
 
 router.get('/:id/details', getTripDetails);
 
-router.post('/', createTrip);
+router.post('/', createTripValidation, createTrip);
+
+router.put('/:id', updateTripValidation, updateTrip);
 
 router.put('/:id/start', startTrip);
 
 router.put('/:id/drop', dropTrip);
 
 router.put('/:id/complete', completeTrip);
+
+router.delete('/:id', deleteTrip);
 
 router.post('/:id/timeline', addTimeline);
 

@@ -218,58 +218,108 @@ export const updateDriverValidation = [
 
 // Trip validations
 export const createTripValidation = [
-  body('vehicle')
-    .isMongoId()
-    .withMessage('Please provide a valid vehicle ID'),
-  body('driver')
-    .isMongoId()
-    .withMessage('Please provide a valid driver ID'),
-  body('route.from')
+  body('vehicle_id')
+    .notEmpty()
+    .withMessage('Vehicle ID is required'),
+  body('driver_id')
+    .notEmpty()
+    .withMessage('Driver ID is required'),
+  body('start_location')
     .trim()
     .notEmpty()
-    .withMessage('Starting location is required'),
-  body('route.to')
+    .withMessage('Start location is required'),
+  body('end_location')
     .trim()
     .notEmpty()
-    .withMessage('Destination is required'),
-  body('distance')
-    .isFloat({ min: 0 })
-    .withMessage('Distance must be positive'),
-  body('startDate')
-    .isISO8601()
-    .withMessage('Please provide a valid start date'),
-  body('estimatedDuration')
+    .withMessage('End location is required'),
+  body('distance_km')
     .optional()
     .isFloat({ min: 0 })
-    .withMessage('Estimated duration must be positive')
+    .withMessage('Distance must be positive'),
+  body('trip_start_datetime')
+    .optional()
+    .isISO8601()
+    .withMessage('Please provide a valid start date/time'),
+  body('expected_end_datetime')
+    .optional()
+    .isISO8601()
+    .withMessage('Please provide a valid expected end date/time'),
+  body('actual_end_datetime')
+    .optional()
+    .isISO8601()
+    .withMessage('Please provide a valid actual end date/time'),
+  body('load_weight')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Load weight must be positive'),
+  body('advance_taken')
+    .optional()
+    .isIn(['yes', 'no'])
+    .withMessage('Advance taken must be yes or no'),
+  body('advance_amount')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Advance amount must be positive'),
+  body('trip_amount')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Trip amount must be positive')
 ];
 
 export const updateTripValidation = [
-  body('route.from')
+  body('vehicle_id')
+    .optional()
+    .notEmpty()
+    .withMessage('Vehicle ID cannot be empty'),
+  body('driver_id')
+    .optional()
+    .notEmpty()
+    .withMessage('Driver ID cannot be empty'),
+  body('start_location')
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('Starting location cannot be empty'),
-  body('route.to')
+    .withMessage('Start location cannot be empty'),
+  body('end_location')
     .optional()
     .trim()
     .notEmpty()
-    .withMessage('Destination cannot be empty'),
-  body('distance')
+    .withMessage('End location cannot be empty'),
+  body('distance_km')
     .optional()
     .isFloat({ min: 0 })
     .withMessage('Distance must be positive'),
-  body('startDate')
+  body('trip_start_datetime')
     .optional()
     .isISO8601()
-    .withMessage('Please provide a valid start date'),
-  body('estimatedDuration')
+    .withMessage('Please provide a valid start date/time'),
+  body('expected_end_datetime')
+    .optional()
+    .isISO8601()
+    .withMessage('Please provide a valid expected end date/time'),
+  body('actual_end_datetime')
+    .optional()
+    .isISO8601()
+    .withMessage('Please provide a valid actual end date/time'),
+  body('load_weight')
     .optional()
     .isFloat({ min: 0 })
-    .withMessage('Estimated duration must be positive'),
-  body('status')
+    .withMessage('Load weight must be positive'),
+  body('advance_taken')
     .optional()
-    .isIn(['Not Started', 'In Progress', 'Loading Done', 'Unloading Done', 'Completed', 'Cancelled'])
+    .isIn(['yes', 'no'])
+    .withMessage('Advance taken must be yes or no'),
+  body('advance_amount')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Advance amount must be positive'),
+  body('trip_amount')
+    .optional()
+    .isFloat({ min: 0 })
+    .withMessage('Trip amount must be positive'),
+  body('trip_status')
+    .optional()
+    .isIn(['scheduled', 'started', 'dropped', 'completed', 'cancelled'])
     .withMessage('Invalid status')
 ];
 
