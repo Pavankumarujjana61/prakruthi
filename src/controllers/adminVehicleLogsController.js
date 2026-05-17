@@ -115,7 +115,8 @@ export const listVehicleLogs = async (req, res) => {
           {
             model: Vehicle,
             as: 'vehicle',
-            attributes: ['vehicle_id', 'vehicle_number']
+            attributes: ['vehicle_id', 'vehicle_number'],
+            required: false
           }
         ],
         order: [['created_at', 'DESC']]
@@ -159,7 +160,8 @@ export const getVehicleLogDetails = async (req, res) => {
         {
           model: Vehicle,
           as: 'vehicle',
-          attributes: ['vehicle_id', 'vehicle_number']
+          attributes: ['vehicle_id', 'vehicle_number'],
+          required: false
         }
       ]
     });
