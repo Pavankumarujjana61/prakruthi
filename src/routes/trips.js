@@ -12,6 +12,13 @@ import {
   getCompletedTrips
 } from '../controllers/trip.js';
 
+
+import uploadVoice from '../middlewares/uploadVoice.js';
+import {
+  uploadTripVoiceNote
+} from '../controllers/tripController.js';
+
+
 const router = express.Router();
 
 router.get('/', getTrips);
@@ -31,5 +38,11 @@ router.put('/:id/drop', dropTrip);
 router.put('/:id/complete', completeTrip);
 
 router.post('/:id/timeline', addTimeline);
+
+router.put(
+  '/:id/voice-note',
+  uploadVoice.single('voice_note'),
+  uploadTripVoiceNote
+);
 
 export default router;

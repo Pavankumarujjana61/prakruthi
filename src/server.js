@@ -317,6 +317,10 @@ app.use(notFound);
 
 app.use(errorHandler);
 
+app.use(
+  '/uploads',
+  express.static('uploads')
+);
 // ======================================
 // Start Server
 // ======================================

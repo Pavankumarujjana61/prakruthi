@@ -141,6 +141,11 @@ return_km: {
       'returned'
     ),
     defaultValue: 'not_started'
+  },
+
+  voice_note: {
+  type: DataTypes.STRING,
+  allowNull: true
   }
 
 }, {

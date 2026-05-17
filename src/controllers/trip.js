@@ -952,3 +952,69 @@ export const getCompletedTrips = async (req, res) => {
   }
 
 };
+
+// ==========================================
+// UPLOAD TRIP VOICE NOTE
+// ==========================================
+
+export const uploadTripVoiceNote = async (req, res) => {
+
+  try {
+
+    const { id } = req.params;
+
+    const trip = await Trip.findByPk(id);
+
+    if (!trip) {
+
+      return res.status(404).json({
+        success: false,
+        message: 'Trip not found'
+      });
+
+    }
+
+    if (!req.file) {
+
+      return res.status(400).json({
+        success: false,
+        message: 'Voice note is required'
+      });
+
+    }
+
+    await trip.update({
+
+      voice_note: req.file.path
+
+    });
+
+    return res.status(200).json({
+
+      success: true,
+
+      message: 'Voice note uploaded successfully',
+
+      data: {
+        trip_id: trip.trip_id,
+        trip_number: trip.trip_number,
+        voice_note: req.file.path
+      }
+
+    });
+
+  } catch (error) {
+
+    console.log(error);
+
+    return res.status(500).json({
+
+      success: false,
+
+      message: error.message
+
+    });
+
+  }
+
+};
