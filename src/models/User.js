@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     required: [true, 'Please add an email'],
     unique: true,
     match: [
-      /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
+      /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
       'Please add a valid email'
     ]
   },
@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
   },
   phone: {
     type: String,
-    match: [/^\+?[\d\s\-\(\)]+$/, 'Please add a valid phone number']
+    match: [/^\+?[\d\s()-]+$/, 'Please add a valid phone number']
   },
   isActive: {
     type: Boolean,

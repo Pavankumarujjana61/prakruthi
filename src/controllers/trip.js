@@ -1,4 +1,4 @@
-import { Op, fn, col } from 'sequelize';
+import { Op } from 'sequelize';
 
 import Trip from '../models/Trip.js';
 import Vehicle from '../models/Vehicle.js';
@@ -6,8 +6,6 @@ import Driver from '../models/Driver.js';
 import FuelLog from '../models/FuelLog.js';
 import Expense from '../models/Expense.js';
 import TripTimeline from '../models/TripTimeline.js';
-import Supervisor from '../models/Supervisor.js';
-import uploadVoice from '../middleware/uploadVoice.js';
 
 // ==========================================
 // GET ALL TRIPS
@@ -712,15 +710,15 @@ export const completeTrip = async (req, res) => {
       - totalExpense;
 
     // Update Trip
-   const {
-  end_odometer,
-  remarks
-} = req.body;
+    const {
+      end_odometer,
+      remarks
+    } = req.body;
 
-// Return KM
-const return_km =
-  Number(end_odometer || 0)
-  - Number(trip.drop_odometer || 0);
+    // Return KM
+    const return_km =
+      Number(end_odometer || 0)
+      - Number(trip.drop_odometer || 0);
 
 // Total KM
 const total_distance =
@@ -736,6 +734,8 @@ await trip.update({
   actual_end_datetime: new Date(),
 
   end_odometer,
+
+  remarks: remarks || trip.remarks,
 
   distance_km: total_distance,
 

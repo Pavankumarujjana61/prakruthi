@@ -130,7 +130,6 @@ const loadVehiclesAndDrivers = async () => {
 
 export const listTrips = async (req, res) => {
   try {
-    const statusFilter = normalizeStatus(req.query.status);
     const where = {};
 
     if (req.query.status) {

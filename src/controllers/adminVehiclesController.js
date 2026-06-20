@@ -15,11 +15,6 @@ const normalizeStatus = (status) => {
   return normalized === 'inactive' ? 'inactive' : 'active';
 };
 
-const getStatusBadgeClass = (status) => {
-  if (!status) return 'inactive';
-  return status.toLowerCase() === 'active' ? 'active' : 'inactive';
-};
-
 export const listVehicles = async (req, res) => {
   try {
     const vehicles = await Vehicle.findAll({

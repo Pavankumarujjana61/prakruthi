@@ -17,7 +17,7 @@ const normalizeStatus = (status) => {
 
 const validatePhoneNumber = (phone) => {
   const trimmed = String(phone || '').trim();
-  return /^\+?[0-9\s\-]{7,20}$/.test(trimmed);
+  return /^\+?[0-9\s-]{7,20}$/.test(trimmed);
 };
 
 const getFormData = (body) => ({

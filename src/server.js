@@ -274,21 +274,14 @@ if (
   === 'development'
 ) {
 
-  Promise.all([
-
-    import('swagger-ui-express'),
-
-    import('./utils/swagger.js')
-
-  ])
-
-  .then(([
-
-    { default: swaggerUi },
-
-    { default: swaggerSpec }
-
-  ]) => {
+  try {
+    const [
+      { default: swaggerUi },
+      { default: swaggerSpec }
+    ] = await Promise.all([
+      import('swagger-ui-express'),
+      import('./utils/swagger.js')
+    ]);
 
     app.use(
       '/api-docs',
@@ -296,17 +289,12 @@ if (
       swaggerUi.setup(swaggerSpec)
     );
 
-  })
-
-  .catch((err) => {
-
+  } catch (err) {
     logger.error(
       'Failed to setup Swagger docs',
       err
     );
-
-  });
-
+  }
 }
 
 // ======================================

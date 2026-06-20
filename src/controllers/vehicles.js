@@ -1,4 +1,4 @@
-import { Op, fn, col } from 'sequelize';
+import { Op } from 'sequelize';
 import { validationResult } from 'express-validator';
 import Vehicle from '../models/Vehicle.js';
 import logger from '../utils/logger.js';

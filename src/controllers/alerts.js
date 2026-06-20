@@ -1,6 +1,6 @@
 import Alert from '../models/Alert.js';
 import logger from '../utils/logger.js';
-import { buildSearchQuery, getPagination } from '../services/queryService.js';
+import { getPagination } from '../services/queryService.js';
 
 // @desc    Get all alerts
 // @route   GET /api/alerts

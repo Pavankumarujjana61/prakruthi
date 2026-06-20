@@ -19,7 +19,7 @@ export const registerValidation = [
     .withMessage('Role must be admin, manager, or driver'),
   body('phone')
     .optional()
-    .matches(/^\+?[\d\s\-\(\)]+$/)
+    .matches(/^\+?[0-9\s() -]+$/)
     .withMessage('Please provide a valid phone number')
 ];
 
@@ -52,7 +52,7 @@ export const createUserValidation = [
     .withMessage('Role must be admin, manager, or driver'),
   body('phone')
     .optional()
-    .matches(/^\+?[\d\s\-\(\)]+$/)
+    .matches(/^\+?[0-9\s() -]+$/)
     .withMessage('Please provide a valid phone number')
 ];
 
@@ -73,7 +73,7 @@ export const updateUserValidation = [
     .withMessage('Role must be admin, manager, or driver'),
   body('phone')
     .optional()
-    .matches(/^\+?[\d\s\-\(\)]+$/)
+    .matches(/^\+?[0-9\s() -]+$/)
     .withMessage('Please provide a valid phone number'),
   body('isActive')
     .optional()
@@ -165,7 +165,7 @@ export const createDriverValidation = [
     .notEmpty()
     .withMessage('License number is required'),
   body('phone')
-    .matches(/^\+?[\d\s\-\(\)]+$/)
+    .matches(/^\+?[0-9\s() -]+$/)
     .withMessage('Please provide a valid phone number'),
   body('status')
     .optional()
@@ -196,7 +196,7 @@ export const updateDriverValidation = [
     .withMessage('License number cannot be empty'),
   body('phone')
     .optional()
-    .matches(/^\+?[\d\s\-\(\)]+$/)
+    .matches(/^\+?[0-9\s() -]+$/)
     .withMessage('Please provide a valid phone number'),
   body('status')
     .optional()

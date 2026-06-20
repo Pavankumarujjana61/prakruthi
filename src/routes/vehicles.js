@@ -8,8 +8,6 @@ import {
   getVehicleStats
 } from '../controllers/vehicles.js';
 
-import { protect, authorize } from '../middleware/auth.js';
-
 import {
   createVehicleValidation,
   updateVehicleValidation

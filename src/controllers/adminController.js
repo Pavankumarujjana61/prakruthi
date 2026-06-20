@@ -1,4 +1,7 @@
 import Admin from '../models/Admin.js';
+import Vehicle from '../models/Vehicle.js';
+import Driver from '../models/Driver.js';
+import Trip from '../models/Trip.js';
 
 export const loginPage = (req, res) => {
 
@@ -65,6 +68,46 @@ export const login = async (
 
 export const dashboard = async (req, res) => {
   try {
+    const recentTrips = await Trip.findAll({
+      where: { trip_status: 'scheduled' },
+      limit: 5,
+      order: [['created_at', 'DESC']],
+      include: [
+        {
+          model: Vehicle,
+          as: 'vehicle',
+          attributes: ['vehicle_number']
+        },
+        {
+          model: Driver,
+          as: 'driver',
+          attributes: ['driver_name']
+        }
+      ]
+    });
+
+    const recentDeliveries = recentTrips.map((trip) => {
+      const status = trip.trip_status === 'started' ? 'active' : trip.trip_status === 'scheduled' ? 'pending' : 'inactive';
+      const progressMap = {
+        not_started: 0,
+        pickup: 25,
+        in_transit: 50,
+        delivered: 75,
+        returned: 100
+      };
+
+      return {
+        id: trip.trip_id,
+        vehicle: trip.vehicle?.vehicle_number || 'N/A',
+        driver: trip.driver?.driver_name || 'N/A',
+        route: trip.start_location && trip.end_location ? `${trip.start_location} → ${trip.end_location}` : 'N/A',
+        status,
+        statusText: status === 'active' ? 'Active' : status === 'pending' ? 'Pending' : 'Inactive',
+        progress: progressMap[trip.trip_progress] || 0,
+        eta: trip.expected_end_datetime ? new Date(trip.expected_end_datetime).toLocaleDateString() : 'N/A'
+      };
+    });
+
     const dashboardData = {
       admin_name: req.session?.admin_name || 'Admin',
       currentPage: 'dashboard',
@@ -72,15 +115,15 @@ export const dashboard = async (req, res) => {
       totalVehicles: (await Vehicle.count()) || 0,
       totalDrivers: (await Driver.count()) || 0,
 
-      activeRoutes: await Route.count({
-        where: { status: 'active' }
+      activeRoutes: await Trip.count({
+        where: { trip_status: 'started' }
       }) || 0,
 
-      pendingDeliveries: await Delivery.count({
-        where: { status: 'pending' }
+      pendingDeliveries: await Trip.count({
+        where: { trip_status: 'scheduled' }
       }) || 0,
 
-      recentDeliveries: []
+      recentDeliveries
     };
 
     res.render('admin/dashboard', dashboardData);
